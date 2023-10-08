@@ -67,7 +67,7 @@ def softmax(x):
 
 # testing
 torch.manual_seed(0)
-x = torch.randn(1823, 781, device='cuda')
+x = torch.randn(1823, 781, device='cuda', dtype=torch.float16)
 y_triton = softmax(x)
 y_torch = torch.softmax(x, axis=1)
 assert torch.allclose(y_triton, y_torch), (y_triton, y_torch)
@@ -79,35 +79,35 @@ assert torch.allclose(y_triton, y_torch), (y_triton, y_torch)
         x_names=['N'],
         x_vals=[
             128 * i for i in range(2, 100)
-        ],  # different possible values for `x_name`
-        line_arg='provider',  # argument name whose value corresponds to a different line in the plot
+        ],
+        line_arg='provider',
         line_vals=[
             'triton',
             'torch-native',
             'torch-jit',
-        ],  # possible values for `line_arg``
+        ],
         line_names=[
             "Triton",
             "Torch (native)",
             "Torch (jit)",
-        ],  # label name for the lines
-        styles=[('blue', '-'), ('green', '-'), ('green', '--')],  # line styles
-        ylabel="GB/s",  # label name for the y-axis
-        plot_name="softmax-performance",  # name for the plot. Used also as a file name for saving the plot.
-        args={'M': 4096},  # values for function arguments not in `x_names` and `y_name`
+        ],
+        styles=[('blue', '-'), ('green', '-'), ('green', '--')],
+        ylabel="GB/s",
+        plot_name="softmax-performance",
+        args={'M': 4096},
     )
 )
 def benchmark(M, N, provider):
-    x = torch.randn(M, N, device='cuda', dtype=torch.float32)
+    x = torch.randn(M, N, device='cuda', dtype=torch.float16)
     quantiles = [0.5, 0.2, 0.8]
     if provider == 'torch-native':
-        ms, min_ms, max_ms = triton.testing.do_bench(lambda: torch.softmax(x, axis=-1))
+        ms, min_ms, max_ms = triton.testing.do_bench(lambda: torch.softmax(x, axis=-1), quantiles=quantiles)
     if provider == 'triton':
-        ms, min_ms, max_ms = triton.testing.do_bench(lambda: softmax(x))
+        ms, min_ms, max_ms = triton.testing.do_bench(lambda: softmax(x), quantiles=quantiles)
     if provider == 'torch-jit':
-        ms, min_ms, max_ms = triton.testing.do_bench(lambda: naive_softmax(x))
+        ms, min_ms, max_ms = triton.testing.do_bench(lambda: naive_softmax(x), quantiles=quantiles)
     gbps = lambda ms: 2 * x.nelement() * x.element_size() * 1e-9 / (ms * 1e-3)
     return gbps(ms), gbps(max_ms), gbps(min_ms)
 
 
-benchmark.run(show_plots=True, print_data=True)
+#benchmark.run(show_plots=True, print_data=True)
