@@ -1,4 +1,4 @@
-## FinGPT: Large Generative Models for a Small Language <sup>[link](https://arxiv.org/pdf/2311.05640.pdf)</sup>
+# FinGPT: Large Generative Models for a Small Language <sup>[link](https://arxiv.org/pdf/2311.05640.pdf)</sup>
 
 > By ***Risto Luukkonen, Ville Komulainen, Jouni Luoma, Anni Eskelinen,
 Jenna Kanerva, Hanna-Mari Kupari, Filip Ginter, Veronika Laippala,
