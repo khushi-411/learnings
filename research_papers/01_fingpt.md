@@ -1,12 +1,10 @@
-## FinGPT: Large Generative Models for a Small Language
+## FinGPT: Large Generative Models for a Small Language <sup>[Link](https://arxiv.org/pdf/2311.05640.pdf)</sup>
 
 > By ***Risto Luukkonen, Ville Komulainen, Jouni Luoma, Anni Eskelinen,
 Jenna Kanerva, Hanna-Mari Kupari, Filip Ginter, Veronika Laippala,
 Niklas Muennighoff, Aleksandra Piktus, Thomas Wang, Nouamane Tazi,
 Teven Le Scao, Thomas Wolf, Osma Suominen, Samuli Sairanen,
 Mikko Merioksa, Jyrki Heinonen, Aija Vahtola, Samuel Antao, Sampo Pyysalo***
-
-PAPER: [Link](https://arxiv.org/pdf/2311.05640.pdf)
 
 ### Abstract
 - Study of challenges of creating LLMs for the Finnish language (spoken by less than 1% of people).
@@ -57,19 +55,17 @@ Details about training data, preprocessing steps, data statistics, and analysis.
 ### Pretraining
 - For monolingual model: trained from scratch.
 - BLUMMI model: pretraining.
-
-**Pretraining hyperparameters**
-
-| Batch Size | Model Samples | Tokens  | Learning Rate   |
-|------------|---------------|---------|------------------|
-| Small      | 256           | 524288  | 6.0 × 10^(-4)   |
-| Medium     | 256           | 524288  | 3.0 × 10^(-4)   |
-| Large      | 256           | 524288  | 2.5 × 10^(-4)   |
-| XL         | 512           | 1048576 | 2.0 × 10^(-4)   |
-| 3B         | 512           | 1048576 | 1.6 × 10^(-4)   |
-| 8B         | 1024          | 2097152 | 1.2 × 10^(-4)   |
-| 13B        | 1024          | 2097152 | 1.0 × 10^(-4)   |
-| BLUUMI     | 2048          | 4194304 | 6.0 × 10^(-5)   |
+- **Pretraining hyperparameters**
+    | Batch Size | Model Samples | Tokens  | Learning Rate   |
+    |------------|---------------|---------|------------------|
+    | Small      | 256           | 524288  | 6.0 × 10^(-4)   |
+    | Medium     | 256           | 524288  | 3.0 × 10^(-4)   |
+    | Large      | 256           | 524288  | 2.5 × 10^(-4)   |
+    | XL         | 512           | 1048576 | 2.0 × 10^(-4)   |
+    | 3B         | 512           | 1048576 | 1.6 × 10^(-4)   |
+    | 8B         | 1024          | 2097152 | 1.2 × 10^(-4)   |
+    | 13B        | 1024          | 2097152 | 1.0 × 10^(-4)   |
+    | BLUUMI     | 2048          | 4194304 | 6.0 × 10^(-5)   |
 
 ### Evaluation
 Present evaluation dataset and compare the capability of the models using data.
