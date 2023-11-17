@@ -1,4 +1,4 @@
-## FinGPT: Large Generative Models for a Small Language <sup>[Link](https://arxiv.org/pdf/2311.05640.pdf)</sup>
+## FinGPT: Large Generative Models for a Small Language <sup>[link](https://arxiv.org/pdf/2311.05640.pdf)</sup>
 
 > By ***Risto Luukkonen, Ville Komulainen, Jouni Luoma, Anni Eskelinen,
 Jenna Kanerva, Hanna-Mari Kupari, Filip Ginter, Veronika Laippala,
@@ -56,6 +56,7 @@ Details about training data, preprocessing steps, data statistics, and analysis.
 - For monolingual model: trained from scratch.
 - BLUMMI model: pretraining.
 - **Pretraining hyperparameters**
+
     | Batch Size | Model Samples | Tokens  | Learning Rate   |
     |------------|---------------|---------|------------------|
     | Small      | 256           | 524288  | 6.0 × 10^(-4)   |
@@ -71,15 +72,27 @@ Details about training data, preprocessing steps, data statistics, and analysis.
 Present evaluation dataset and compare the capability of the models using data.
 
 1. **FIN-bench dataset**
-    - Contains data of the following tasks: Analogy, Arithmetic, Cause and effect, Emotions, Empirical judgments, General knowledge, Intent recognition, Misconceptions, Paraphrase, Sentence ambiguity, and Similarities abstraction.
+    - Contains data on the following tasks: Analogy, Arithmetic, Cause and effect, Emotions, Empirical judgments, General knowledge, Intent recognition, Misconceptions, Paraphrase, Sentence ambiguity, and Similarities abstraction.
 2. **Few-shot results**
-    -
+    - Evaluating results on FIN-bench datasets.
+    - Monolingual models mostly outperform the results from the previously released models.
+    - Performance increases with the number of in-context examples and model size.
+    - They saw small models break the expected pattern, showing better performance for zero-short than one to three. It could be related to a tendency of less capable models to repeat patterns.
+    - Noticed a drop in performance between 8B and 13B parameter models. Maybe caused by overfitting.
+    - BLUUMI performs notably better than BLOOM on FIN-bench datasets.
 3. **Alignment**
     - Model alignment categories: harmlessness, honesty, helpfulness, and other.
+    - Created a Finnish version of the HHH alignment task (models perform poor in these tasks):
+        - initial machine translation
+        - manual correction
+        - evaluate models using the same process
 4. **Bias**
-    -
+    - Language models repeat or amplify biases present in training data.
+    - Assessed the occurrence of the bias, then categorized it into different types, and finally compared to the standard data to check the results.
 5. **Toxicity**
-    -
+    - Prompt Generation Approach:
+        - Prompting the models with their end-of-sequence (EOS) token to signal the start of the new context.
+        - Unprompted generations were then classified as toxic content.
 
 ###  Discussion and Conclusions
 - Created dataset of Finnish
