@@ -29,7 +29,7 @@ Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin
 ### Model Architecture
 - Stacked self-attention and point-wise, and fully connected layers for both encoder and decoder.
 
-![transformer architecture](images/transformer.png)
+ ![transformer architecture](images/transformer.png)
 
 #### Encoder and Decoder Stacks
 1. **ENCODER**
@@ -48,4 +48,42 @@ Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin
 
  ![types of attention](images/attention.png)
 
-1. ** Scaled Dot-Product Attention**
+1. **Scaled Dot-Product Attention**
+- 
+    $$
+    \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V
+    $$
+2. ** Multi-Head Attention**
+
+3. **Applications of Attention in our Mode**
+- 
+
+#### Position-wise Feed-Forward Networks
+- Each encoder and decoder layer contains fully connected feed-forward network.
+- Two linear transformation with a ReLU activation.
+
+$$
+\text{FFN}(x) = \max(0, xW_1 + b_1)W_2 + b_2
+$$
+
+#### Embeddings and Softmax
+- Learned embeddings to convert the input tokens and output tokens to vector of dimension d<sub>model</sub>.
+- To convert decoder output to predicted next-token probabilities: learned linear transformation and softmax function.
+- Same weight matrix between two embedding layers and pre-softmax transformation.
+- Multiply embedding layers by $$\sqrt{d<sub>{\text{model}}</sub>}$$
+
+#### Positional Encoding
+- Model contains no recurrence and no convolution.
+- To add information about relative or absolute positin of tokens: add positional encoding.
+- Added in the end of encoder and decoder stacks.
+- Why sinusodal function used? Allows model to extend longer than the encountered sequence lenghts during training.
+
+$$
+P E(\text{pos}, 2i) = \sin\left(\frac{\text{pos}}{10000^{2i/d_{\text{model}}}}\right)
+$$
+
+$$
+P E(\text{pos}, 2i+1) = \cos\left(\frac{\text{pos}}{10000^{(2i+1)/d_{\text{model}}}}\right)
+$$
+
+### Why Self-Attention
