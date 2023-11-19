@@ -45,18 +45,39 @@ Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin
 - Mapping a query and a set of key-value pairs to an output.
 - Total output = weighted sum of the values.
 - Weight assigned is computed by a compatibility function of the query with their key.
-
+- In encoder-decoder attention:
+    - queries come from the previous decoder layer.
+    - memory keys an values come from the output of the encoder.
  ![types of attention](images/attention.png)
 
 1. **Scaled Dot-Product Attention**
-- 
-    $$
-    \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V
-    $$
-2. ** Multi-Head Attention**
+- Inputs: queires, keys (*K*) of dimension (d_k), values (*V*) of dimension (d_v), matrix (*Q*).
+- Scaling factor here is $\sqrt{\frac{1}{d_k}}$
+- Two types of attention used:
+    - Additive attention: computes the compatibility function using a feed-forward network with a single hidden layer.
+    - Dot-product attention: faster and space-efficient practice.
+$$
+\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V
+$$
+2. **Multi-Head Attention**
+- Attention in parallel, i.e., performs different representation subspaces at different positions.
 
-3. **Applications of Attention in our Mode**
-- 
+$$
+\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h) \cdot W^O
+$$
+
+where
+
+$$
+\text{head}_i = \text{Attention}(QW_{Qi}, KW_{Ki}, V W_{Vi})
+$$
+
+3. **Applications of Attention in our Model**
+- Every position in decoder attend all position of input sequence (mimics a typical encoder-decoder mechanisms).
+- Each position in the encoder can attend to all position in the previous layer of the encoder.
+    - Because encoder contains self-attention layers (keys, values, and queries comes from the same place).
+- Similarly, self-attention layers in decoder allow each position in the decoder to attend to all the positions in decoder.
+    - To prevent leftward information flow: implement masking all values in input of the softmax.
 
 #### Position-wise Feed-Forward Networks
 - Each encoder and decoder layer contains fully connected feed-forward network.
@@ -70,7 +91,7 @@ $$
 - Learned embeddings to convert the input tokens and output tokens to vector of dimension d<sub>model</sub>.
 - To convert decoder output to predicted next-token probabilities: learned linear transformation and softmax function.
 - Same weight matrix between two embedding layers and pre-softmax transformation.
-- Multiply embedding layers by $$\sqrt{d<sub>{\text{model}}</sub>}$$
+- Multiply embedding layers by $ \sqrt{d_{\text{model}}} $
 
 #### Positional Encoding
 - Model contains no recurrence and no convolution.
@@ -87,3 +108,10 @@ P E(\text{pos}, 2i+1) = \cos\left(\frac{\text{pos}}{10000^{(2i+1)/d_{\text{model
 $$
 
 ### Why Self-Attention
+
+### Training
+
+### Results
+
+### Conclusion
+- Introduced **Transformer**, based entirely on attention mechanism, no RNNs and no convolutions.
