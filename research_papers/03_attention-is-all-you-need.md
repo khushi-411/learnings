@@ -56,9 +56,11 @@ Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin
 - Two types of attention used:
     - Additive attention: computes the compatibility function using a feed-forward network with a single hidden layer.
     - Dot-product attention: faster and space-efficient practice.
+
 $$
 \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V
 $$
+
 2. **Multi-Head Attention**
 - Attention in parallel, i.e., performs different representation subspaces at different positions.
 
