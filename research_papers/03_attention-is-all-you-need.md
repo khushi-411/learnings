@@ -65,13 +65,13 @@ $$
     - Attention in parallel, i.e., performs different representation subspaces at different positions.
 
 $$
-\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}<sup>1</sup>, \ldots, \text{head}<sup>h</sup>) \cdot W^O
+\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}<sub>1</sub>, \ldots, \text{head}<sub>h</sub>) \cdot W^O
 $$
 
 where
 
 $$
-\text{head}<sup>i</sup> = \text{Attention}(QW_{Qi}, KW_{Ki}, V W_{Vi})
+\text{head}\textsubscript{i} = \text{Attention}(QW\textsubscript{i}\textsupscript{Q}, KW\textsubscript{i}\textsupscript{K}, V W\textsubscript{i}\textsupscript{V})
 $$
 
 3. **Applications of Attention in our Model**
