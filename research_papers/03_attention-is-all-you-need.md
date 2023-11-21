@@ -71,7 +71,7 @@ $$
 where
 
 $$
-\text{head}\textsubscript{i} = \text{Attention}(QW\textsubscript{i}\textsupscript{Q}, KW\textsubscript{i}\textsupscript{K}, V W\textsubscript{i}\textsupscript{V})
+\text{head}<sup>i</sup> = \text{Attention}(QW_{i}^Q, KW_{i}^K, V W_{i}^V)
 $$
 
 3. **Applications of Attention in our Model**
