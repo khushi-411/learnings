@@ -51,35 +51,35 @@ Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin
  ![types of attention](images/attention.png)
 
 1. **Scaled Dot-Product Attention**
-- Inputs: queires, keys (*K*) of dimension (d_k), values (*V*) of dimension (d_v), matrix (*Q*).
-- Scaling factor here is $\sqrt{\frac{1}{d_k}}$
-- Two types of attention were used:
-    - Additive attention: computes the compatibility function using a feed-forward network with a single hidden layer.
-    - Dot-product attention: faster and space-efficient practice.
+    - Inputs: queires, keys (*K*) of dimension (d_k), values (*V*) of dimension (d_v), matrix (*Q*).
+    - Scaling factor here is $\sqrt{\frac{1}{d_k}}$
+    - Two types of attention were used:
+        - Additive attention: computes the compatibility function using a feed-forward network with a single hidden layer.
+        - Dot-product attention: faster and space-efficient practice.
 
 $$
 \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V
 $$
 
 2. **Multi-Head Attention**
-- Attention in parallel, i.e., performs different representation subspaces at different positions.
+    - Attention in parallel, i.e., performs different representation subspaces at different positions.
 
 $$
-\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h) \cdot W^O
+\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}<sup>1</sup>, \ldots, \text{head}<sup>h</sup>) \cdot W^O
 $$
 
 where
 
 $$
-\text{head}_i = \text{Attention}(QW_{Qi}, KW_{Ki}, V W_{Vi})
+\text{head}<sup>i</sup> = \text{Attention}(QW_{Qi}, KW_{Ki}, V W_{Vi})
 $$
 
 3. **Applications of Attention in our Model**
-- Every position in the decoder attend all position of the input sequence (mimics a typical encoder-decoder mechanism).
-- Each position in the encoder can attend to all positions in the previous layer of the encoder.
-    - Because the encoder contains self-attention layers (keys, values, and queries come from the same place).
-- Similarly, self-attention layers in the decoder allow each position in the decoder to attend to all the positions in the decoder.
-    - To prevent leftward information flow: implement masking all values in the input of the softmax.
+    - Every position in the decoder attend all position of the input sequence (mimics a typical encoder-decoder mechanism).
+    - Each position in the encoder can attend to all positions in the previous layer of the encoder.
+        - Because the encoder contains self-attention layers (keys, values, and queries come from the same place).
+    - Similarly, self-attention layers in the decoder allow each position in the decoder to attend to all the positions in the decoder.
+        - To prevent leftward information flow: implement masking all values in the input of the softmax.
 
 #### Position-wise Feed-Forward Networks
 - Each encoder and decoder layer contains a fully connected feed-forward network.
