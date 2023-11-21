@@ -68,7 +68,8 @@ $$
 \text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h) \cdot W^O
 $$
 
-where
+    where
+
 $$
 \text{head}_i = \text{Attention}(QW_{Qi}, KW_{Ki}, V W_{Vi})
 $$
@@ -126,6 +127,7 @@ $$
     - WMT 2014 English-French dataset: 36 million sentences, 32000 word-piece vocabulary.
 2. **Hardware and Schedule**
     - Trained on 8 NVIDIA P100 GPUs. 100,000 steps or 12 hours.
+
 3. **Optimizer**: Adam Optimizer.
     - Hyperparameters are
 
@@ -143,9 +145,9 @@ $$
     - Residual Dropout: Applied to the output of each sub-layer. And to the sum of the embeddings and positional embeddings in both encoder and decoder stacks. Rate used 0.1.
     - Label Smoothing: Added value
 
-    $$
-    \epsilon_{\text{ls}} = 0.1
-    $$
+$$
+\epsilon_{\text{ls}} = 0.1
+$$
 
 
 ### Results
