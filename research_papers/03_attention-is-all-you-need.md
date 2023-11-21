@@ -62,13 +62,13 @@ $$
 $$
 
 2. **Multi-Head Attention**
-- Attention in parallel, i.e., performs different representation subspaces at different positions.
+Attention in parallel, i.e., performs different representation subspaces at different positions.
 
 $$
 \text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h) \cdot W^O
 $$
 
-    where
+where
 
 $$
 \text{head}_i = \text{Attention}(QW_{Qi}, KW_{Ki}, V W_{Vi})
@@ -127,19 +127,13 @@ $$
     - WMT 2014 English-French dataset: 36 million sentences, 32000 word-piece vocabulary.
 2. **Hardware and Schedule**
     - Trained on 8 NVIDIA P100 GPUs. 100,000 steps or 12 hours.
-
 3. **Optimizer**: Adam Optimizer.
-    - Hyperparameters are
-
-    $$
-    \beta_1 = 0.9, \beta_2 = 0.98, \epsilon = 10^{-9}, \text{ and } \text{warmup\_steps} = 4000.
-    $$
-
+    - Hyperparameters are $\beta_1 = 0.9$ $\beta_2 = 0.98$ $\epsilon = 10^{-9}$ and $\text{warmup\_steps} = 4000$
     - Variable learning rate is given by:
 
-    $$
-    \text{lrate} = d^{-0.5} \cdot \min(\text{step\_num}^{-0.5}, \text{step\_num} \cdot \text{warmup\_steps}^{-1.5})
-    $$
+$$
+\text{lrate} = d^{-0.5} \cdot \min(\text{step\_num}^{-0.5}, \text{step\_num} \cdot \text{warmup\_steps}^{-1.5})
+$$
 
 4. **Regularization**
     - Residual Dropout: Applied to the output of each sub-layer. And to the sum of the embeddings and positional embeddings in both encoder and decoder stacks. Rate used 0.1.
