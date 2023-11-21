@@ -93,7 +93,7 @@ $$
 - Learned embeddings to convert the input tokens and output tokens to vector of dimension d<sub>model</sub>.
 - To convert decoder output to predicted next-token probabilities: learned linear transformation and softmax function.
 - Same weight matrix between two embedding layers and pre-softmax transformation.
-- Multiply embedding layers by $ \sqrt{d_{\text{model}}} $
+- Multiply embedding layers by \( \sqrt{d_{\text{model}}} \).
 
 #### Positional Encoding
 - Model contains no recurrence and no convolution.
@@ -110,10 +110,40 @@ P E(\text{pos}, 2i+1) = \cos\left(\frac{\text{pos}}{10000^{(2i+1)/d_{\text{model
 $$
 
 ### Why Self-Attention
+ 
 
 ### Training
+1. **Training Data and Batching**
+    - WMT 2014 English-German dataset: 4.5 million sentences pairs. Sentence were encoded using byte-pair encoding.
+    - WMT 2014 English-French dataset: 36 million sentences, 32000 word-piece vocabulary.
+2. **Hardware and Schedule**
+    - Trained on 8 NVIDIA P100 GPUs. 100,000 steps or 12 hours.
+3. **Optimizer**: Adam Optimizer.
+    - Hyperparameters are $$ \beta_1 = 0.9, \beta_2 = 0.98, \epsilon = 10^{-9}, \text{ and } \text{warmup\_steps} = 4000. $$
+    - Variable learning rate is given by:
+
+$$
+\text{lrate} = d^{-0.5} \cdot \min(\text{step\_num}^{-0.5}, \text{step\_num} \cdot \text{warmup\_steps}^{-1.5})
+$$
+
+4. **Regularization**
+    - Residual Dropout: Applied to the output of each sub-layer. And to the sum of the embeddngs and positional embeddings in both encoder and decoder stacks. Rate used 0.1.
+    - Label Smoothing: Added value \epsilon_{\text{ls}} = $ 0.1 $
 
 ### Results
+1. **Machine Translation**
+    - WMT 2014 English-to-German translation task: 28.4 BLEU score.
+    - WMT 2014 English-to-French translation task: 41.0 BLEU score. Took 1/4 the training cost of previous model.
+    - FLOPS used to train a model by multiplying the training time, no. of GPUs used, and an estimated GPU capacity.
+2. **Model Variations**
+    - To evaluate the importance of different components of the Transformer, they varied our base model in different ways.
+    - Quality drops with too low and too many attention heads.
+    - Reducing attention key size hurts model quality.
+    - Dropout is very helpful in avoiding over-fitting.
+    - After replacing the sinusoidal positional encoding with learned positional embeddings, they get nearly identical results to base model.
+3. **English Constituency Parsing**
+    - To evaluate if the transformer can generalize to other tasks.
+    - Resutls showed that despite of lack of task specfic tuning the model performed well.
 
 ### Conclusion
 - Introduced **Transformer**, based entirely on attention mechanism, no RNNs and no convolutions.
