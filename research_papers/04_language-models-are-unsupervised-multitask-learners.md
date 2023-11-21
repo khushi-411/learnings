@@ -22,8 +22,8 @@ Dario Amodei, Ilya Sutskever
     - Demonstrates ability of language models to perform a wide range of tasks in a zero-shot setting.
 
 ### Approach
-- Set of examples (sequence of variable length): \( (x_1, x_2, \ldots, x_n) \).
-- Symbols: $ (s_1, s_2, \ldots, s_n) $.
+- Set of examples (sequence of variable length): \( x_1, x_2, ..., x_n \).
+- Symbols: $ (s_1, s_2, ..., s_n) $.
 - Probabilites:
 
 $$
@@ -54,7 +54,7 @@ $$
     - Layer normalization was moved to the input of each sub-block.
     - Additional layer normalization was added after final self-attention block.
     - Intialization was modified with model depth.
-    - Scale the weights of residual layers at initialization by a factor of $ \frac{1}{\sqrt{N}} $.
+    - Scale the weights of residual layers at initialization by a factor of 1/ $\sqrt{N}$.
     - Vocabulary size = 50,257.
     - Context size increased from 512 to 1024.
     - Batch size = 512.
