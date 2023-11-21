@@ -23,7 +23,7 @@ Dario Amodei, Ilya Sutskever
 
 ### Approach
 - Set of examples (sequence of variable length): \( x_1, x_2, ..., x_n \).
-- Symbols: $ (s_1, s_2, ..., s_n) $.
+- Symbols: \( s_1, s_2, ..., s_n \).
 - Probabilites:
 
 $$
