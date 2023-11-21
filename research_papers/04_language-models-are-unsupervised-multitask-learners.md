@@ -22,9 +22,10 @@ Dario Amodei, Ilya Sutskever
     - Demonstrates ability of language models to perform a wide range of tasks in a zero-shot setting.
 
 ### Approach
-- Set of examples (sequence of variable length): $ (x_1, x_2, \ldots, x_n) $.
+- Set of examples (sequence of variable length): \( (x_1, x_2, \ldots, x_n) \).
 - Symbols: $ (s_1, s_2, \ldots, s_n) $.
 - Probabilites:
+
 $$
 p(x) = \prod_{i=1}^{n} p(s_i | s_1, \ldots, s_{i-1})
 $$
