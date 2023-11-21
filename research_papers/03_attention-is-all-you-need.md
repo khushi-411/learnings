@@ -110,7 +110,16 @@ P E(\text{pos}, 2i+1) = \cos\left(\frac{\text{pos}}{10000^{(2i+1)/d_{\text{model
 $$
 
 ### Why Self-Attention
- 
+- Compare aspects of self-attention layers to recurrent and convolution layers.
+- Why self-attention use?
+    - Total computational complexity per layer.
+    - Amount of computation that can be parallelized.
+    - Path length between long-range dependencies in the network.
+        - Learning long range dependencies is a key challenge affecting the ability to learn forward and backward passes. Shorter paths are easier to learn.
+- Self-attention layer connects all position with a constant number of seqentially executed operations whereas recurrent layers requires O(n) operations. Self-attention are faster when the sequence lengths are smaller.
+    - To improve the performance of larger sequence lenghts self-attention layers should just consider its neighbouring positions.
+- Convolutional layers are even more expensive than the recurrent layers.
+- Self-attention layer are more easier to interpret that the other two.
 
 ### Training
 1. **Training Data and Batching**
@@ -119,7 +128,12 @@ $$
 2. **Hardware and Schedule**
     - Trained on 8 NVIDIA P100 GPUs. 100,000 steps or 12 hours.
 3. **Optimizer**: Adam Optimizer.
-    - Hyperparameters are $$ \beta_1 = 0.9, \beta_2 = 0.98, \epsilon = 10^{-9}, \text{ and } \text{warmup\_steps} = 4000. $$
+    - Hyperparameters are
+
+$$
+\beta_1 = 0.9, \beta_2 = 0.98, \epsilon = 10^{-9}, \text{ and } \text{warmup\_steps} = 4000.
+$$
+
     - Variable learning rate is given by:
 
 $$
@@ -128,7 +142,12 @@ $$
 
 4. **Regularization**
     - Residual Dropout: Applied to the output of each sub-layer. And to the sum of the embeddngs and positional embeddings in both encoder and decoder stacks. Rate used 0.1.
-    - Label Smoothing: Added value \epsilon_{\text{ls}} = $ 0.1 $
+    - Label Smoothing: Added value
+
+$$
+\epsilon_{\text{ls}} = 0.1
+$$
+
 
 ### Results
 1. **Machine Translation**
