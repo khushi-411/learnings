@@ -1,4 +1,4 @@
-# The Zephyr Abstract Syntax Description Language [link](https://www.usenix.org/legacy/publications/library/proceedings/dsl97/full_papers/wang/wang.pdf)
+# The Zephyr Abstract Syntax Description Language <sup>[link](https://www.usenix.org/legacy/publications/library/proceedings/dsl97/full_papers/wang/wang.pdf)</sup>
 
 > By Daniel C. Wang, Andrew W. Appel, Jeff L. Korn, Christopher S. Serra
 
@@ -11,3 +11,16 @@
 - This paper describes details about ASDL!
 
 ### Introduction
+
+
+### Future Work
+- It should support modularized descriptions.
+    - For this, we'll be required to check how modular descriptions are translated into the target language.
+    - Should they allow cyclic modular description?
+- We need to work on tools for building ASDL definitions.
+- The current system directly transforms ASDL to the target language; we need some hook to control how descriptions are translated.
+- Approach can be extended into a tool that generates code generators for ASDL data types.
+
+### Conclusions
+- ASDL (description language): depicts the notion for describing the abstract syntax of the programming language or IRs of the compilers.
+- ASN.1: a reinvention of ASDL, it provides support for cross-language interpretation.
