@@ -24,11 +24,18 @@ Dario Amodei, Ilya Sutskever
 ### Approach
 - Set of examples (sequence of variable length): \( x_1, x_2, ..., x_n \).
 - Symbols: \( s_1, s_2, ..., s_n \).
-- Probabilites:
+- Joint probability: product of conditional probabilities.
 
 $$
 p(x) = \prod_{i=1}^{n} p(s_i | s_1, \ldots, s_{i-1})
 $$
+
+- Learning to perform a specific task is given by $p\(output|input\)$
+- For general system performing many task, it is given by $p\(output|input, task\)$
+- Language model learn without the need of any explicit supervision.
+- Experiments confirmed that large language models are able to perform multitask learning but it is slower than the supervised approaches.
+- LLMs with sufficient capacity will begin to learn to infer and perform the tasks demontrated in natural language sequence to predict them.
+    - implies it is able to perform unsupervised multitask learning.
 
 #### Training Dataset
 - Approach large and diverse datasets.
