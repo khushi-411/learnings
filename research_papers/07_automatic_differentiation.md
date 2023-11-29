@@ -36,14 +36,31 @@ $$
 - These are maps between vector spaces that respect the vector space structure.
 - Mathematically, it's given by:
 
-$T(u + v) = T(u) + T(v) \quad \forall u, v \in V$
+$$
+T(u + v) = T(u) + T(v) \quad \forall u, v \in V
+$$
 
-$T(av) = aT(v) \quad \forall v \in V, \, a \in K$
+$$
+T(av) = aT(v) \quad \forall v \in V, \, a \in K
+$$
 
 - **Linear Isomorphism**
 
-#### Differences between a real vector space and $R<sup>n</sup>
+#### Differences between a real vector space and $R<sup>n</sup>$
 
 
 ### Multivariable Calculas
+- A map is diffrentiable at a point $x$, if:
 
+$$
+\lim_{{h \to 0}} \frac{{f(x + h) - f(x) - Lx(h)}}{{\|h\|_{\mathbb{R}^m}}} = 0_{\mathbb{R}^n}
+$$
+
+- The differential is a first order linear approximation.
+- **Directional derivatives**
+- The matrix associated to the differential is the Jacobian.
+- **Chain rule**
+- **Leibnitz rule**
+
+### Forward Mode AD
+-  
