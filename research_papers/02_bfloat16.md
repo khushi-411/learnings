@@ -17,7 +17,7 @@ Misha Smelyanskiy, Bharat Kaul, and Pradeep Dubey***
 ### Introduction
 - Recent developments on architectures for GEMM and computing on low precision.
 - For inference and training: mixed precision technique.
-- Dtypes for computing in lower precision: fp16, $16$b int, bf16.
+- Dtypes for computing in lower precision: fp16, $16$ b int, bf16.
 - All these dtypes have $16$-bit input operands and $32$-bit accumulators for the computations.
 - **BFloat16**:
     - low precision storage format to reduce communication volumes of weights and activations.
@@ -63,11 +63,11 @@ This loss scaling can be avoided using the bf16 datatype.
   ![bfloat16 representation](images/bf16.png)
 - **Comparison of data types**
 
-    | Data Type | Bit Format | Max            | Min            | Min Acc.     |
-    |------------|------------|----------------|----------------|--------------|
-    | FP32       | 1, 8, 23   | 3.40e38        | 1.17e−38       | 1.40e−45     |
-    | FP16       | 1, 5, 10   | 6.55e4         | 6.10e−5        | 5.96e−8      |
-    | BFLOAT16   | 1, 8, 7    | 3.38e38        | 1.17e−38       | N/A (float32)|
+    | Data Type |  Bit Format  |  Max             |  Min             |  Min Acc.      |
+    |------------|--------------|------------------|------------------|----------------|
+    | FP32       | $1, 8, 23$   | $3.40e38$        | $1.17e−38$       | $1.40e−45$     |
+    | FP16       | $1, 5, 10$   | $6.55e4$         | $6.10e−5$        | $5.96e−8$      |
+    | BFLOAT16   | $1, 8, 7$    | $3.38e38$        | $1.17e−38$       | $N/A (float32)$|
 
 ### Results
 1. **CNNs**: bf16 dtypes used in Convolution, Inner product layers, ReLU, Batch Norm, Pooling, Dropout, Elt layers.

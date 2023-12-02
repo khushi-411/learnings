@@ -59,16 +59,16 @@ Details about training data, preprocessing steps, data statistics, and analysis.
 - BLUMMI model: pretraining.
 - **Pretraining hyperparameters**
 
-    | Batch Size | Model Samples | Tokens  | Learning Rate   |
-    |------------|---------------|---------|------------------|
-    | Small      | 256           | 524288  | 6.0 × 10^(-4)   |
-    | Medium     | 256           | 524288  | 3.0 × 10^(-4)   |
-    | Large      | 256           | 524288  | 2.5 × 10^(-4)   |
-    | XL         | 512           | 1048576 | 2.0 × 10^(-4)   |
-    | 3B         | 512           | 1048576 | 1.6 × 10^(-4)   |
-    | 8B         | 1024          | 2097152 | 1.2 × 10^(-4)   |
-    | 13B        | 1024          | 2097152 | 1.0 × 10^(-4)   |
-    | BLUUMI     | 2048          | 4194304 | 6.0 × 10^(-5)   |
+    | Batch Size |  Model Samples  |  Tokens   |  Learning Rate    |
+    |------------|-----------------|-----------|-------------------|
+    | Small      | $256$           | $524288$  | $6.0 × 10^(-4)$   |
+    | Medium     | $256$           | $524288$  | $3.0 × 10^(-4)$   |
+    | Large      | $256$           | $524288$  | $2.5 × 10^(-4)$   |
+    | XL         | $512$           | $1048576$ | $2.0 × 10^(-4)$   |
+    | 3B         | $512$           | $1048576$ | $1.6 × 10^(-4)$   |
+    | 8B         | $1024$          | $2097152$ | $1.2 × 10^(-4)$   |
+    | 13B        | $1024$          | $2097152$ | $1.0 × 10^(-4)$   |
+    | BLUUMI     | $2048$          | $4194304$ | $6.0 × 10^(-5)$   |
 
 ### Evaluation
 Present evaluation dataset and compare the capability of the models using data.
@@ -80,7 +80,7 @@ Present evaluation dataset and compare the capability of the models using data.
     - Monolingual models mostly outperform the results from the previously released models.
     - Performance increases with the number of in-context examples and model size.
     - They saw small models break the expected pattern, showing better performance for zero-short than one to three. It could be related to a tendency of less capable models to repeat patterns.
-    - Noticed a drop in performance between $8$B and $13$B parameter models. Maybe caused by overfitting.
+    - Noticed a drop in performance between $8$ B and $13$ B parameter models. Maybe caused by overfitting.
     - BLUUMI performs notably better than BLOOM on FIN-bench datasets.
 3. **Alignment**
     - Model alignment categories: harmlessness, honesty, helpfulness, and other.
