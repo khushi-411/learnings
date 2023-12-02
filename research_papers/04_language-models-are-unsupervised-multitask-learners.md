@@ -69,12 +69,17 @@ $$
     - Batch size = $512$.
 
 ### Experiments
+
+<div align="center">
+
 |  Name  |  Parameters  |  Layers  |  dmodel  |
-|--------|--------------|----------|----------|
+|:--------:|:--------------:|:----------:|:----------:|
 | Equi. Original GPT | $117$ M       | $12$     | $768$    |
 | Largest BERT model | $345$ M       | $24$     | $1024$   |
 |        | $762$ M       | $36$     | $1280$   |
 | GPT-2  | $1542$ M      | $48$     | $1600$   |
+
+</div>
 
 1. **Language Model**
     - Our model does not require any pre-processing or tokenization steps; therefore, we can evaluate it in any language model.
