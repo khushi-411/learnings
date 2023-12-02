@@ -1,4 +1,4 @@
-# FinGPT: Large Generative Models for a Small Language <sup>[link](https://arxiv.org/pdf/2311.05640.pdf)</sup>
+# FinGPT: Large Generative Models for a Small Language
 
 > By ***Risto Luukkonen, Ville Komulainen, Jouni Luoma, Anni Eskelinen,
 Jenna Kanerva, Hanna-Mari Kupari, Filip Ginter, Veronika Laippala,
@@ -6,10 +6,12 @@ Niklas Muennighoff, Aleksandra Piktus, Thomas Wang, Nouamane Tazi,
 Teven Le Scao, Thomas Wolf, Osma Suominen, Samuli Sairanen,
 Mikko Merioksa, Jyrki Heinonen, Aija Vahtola, Samuel Antao, Sampo Pyysalo***
 
+[Research Paper Link](https://arxiv.org/abs/2311.05640)
+
 ### Abstract
-- Study of challenges of creating LLMs for the Finnish language (spoken by less than 1% of people).
+- Study of challenges of creating LLMs for the Finnish language (spoken by less than $1%$ of people).
 - Train seven monolingual models from scratch.
-- **BLUUMI**: Pre-train the multilingual BLOOM model (176-billion parameter) on original training data and Finnish.
+- **BLUUMI**: Pre-train the multilingual BLOOM model ($176$-billion parameter) on original training data and Finnish.
 - **Eval Model**: Fin-bench.
 - Also, assess model qualities like toxicity and bias.
 
@@ -17,8 +19,8 @@ Mikko Merioksa, Jyrki Heinonen, Aija Vahtola, Samuel Antao, Sampo Pyysalo***
 - Transformer architecture tasks: text classification to text generation
 - Unsupervised learning: learn to perform tasks by themselves
 - Datasets collected from: Wikipedia and Common Crawl
-- Train (monolingual Finnish models): 13 billion parameters for 300 billion tokens
-- Pre-train: 176 billion parameter
+- Train (monolingual Finnish models): $13$ billion parameters for $300$ billion tokens
+- Pre-train: $176$ billion parameter
 
 ### Model Architecture
 - Follows GPT architecture for the number of layers, dimensionality, and number of attention heads
@@ -29,7 +31,7 @@ Mikko Merioksa, Jyrki Heinonen, Aija Vahtola, Samuel Antao, Sampo Pyysalo***
 Details about training data, preprocessing steps, data statistics, and analysis.
 
 1. **Data Sources**
-    - *Parsebank*: 6 billion tokens collected from the internet.
+    - *Parsebank*: $6$ billion tokens collected from the internet.
     - *mC4*: cleaned version of Common Crawl’s web crawl corpus.
     - *CC-Fi*: manually extracted using Trafilatura to maximize coverage of Finnish text.
     - *Fiwiki*: wikipedia's free encyclopedia.
@@ -78,7 +80,7 @@ Present evaluation dataset and compare the capability of the models using data.
     - Monolingual models mostly outperform the results from the previously released models.
     - Performance increases with the number of in-context examples and model size.
     - They saw small models break the expected pattern, showing better performance for zero-short than one to three. It could be related to a tendency of less capable models to repeat patterns.
-    - Noticed a drop in performance between 8B and 13B parameter models. Maybe caused by overfitting.
+    - Noticed a drop in performance between $8$B and $13$B parameter models. Maybe caused by overfitting.
     - BLUUMI performs notably better than BLOOM on FIN-bench datasets.
 3. **Alignment**
     - Model alignment categories: harmlessness, honesty, helpfulness, and other.
@@ -96,7 +98,7 @@ Present evaluation dataset and compare the capability of the models using data.
 
 ###  Discussion and Conclusions
 - Created dataset of Finnish
-- Created eight new large language models: seven monolingual Finnish models (from 185 million to 13 billion params) and a multilingual (176-billion param) model, BLUUMI.
+- Created eight new large language models: seven monolingual Finnish models (from $185$ million to $13$ billion params) and a multilingual ($176$-billion param) model, BLUUMI.
 - Introduced evaluation dataset: FIN-bench.
 
 ### Limitations

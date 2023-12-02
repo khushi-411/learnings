@@ -1,10 +1,12 @@
-# A Study of BFLOAT16 for Deep Learning Training <sup>[link](https://arxiv.org/pdf/1905.12322.pdf)</sup>
+# A Study of BFLOAT16 for Deep Learning Training
 
-> By Dhiraj Kalamkar, Dheevatsa Mudigere, Naveen Mellempudi, Dipankar Das,
+> By ***Dhiraj Kalamkar, Dheevatsa Mudigere, Naveen Mellempudi, Dipankar Das,
 Kunal Banerjee, Sasikanth Avancha, Dharma Teja Vooturi, Nataraj Jammalamadaka,
 Jianyu Huang, Hector Yuen, Jiyan Yang, Jongsoo Park, Alexander Heinecke,
 Evangelos Georganas, Sudarshan Srinivasan, Abhisek Kundu,
-Misha Smelyanskiy, Bharat Kaul, and Pradeep Dubey
+Misha Smelyanskiy, Bharat Kaul, and Pradeep Dubey***
+
+[Research Paper Link](https://arxiv.org/abs/1905.12322)
 
 ### Abstract
 - Paper demonstrates the efficacy of BFloat16 for deep learning training.
@@ -15,12 +17,12 @@ Misha Smelyanskiy, Bharat Kaul, and Pradeep Dubey
 ### Introduction
 - Recent developments on architectures for GEMM and computing on low precision.
 - For inference and training: mixed precision technique.
-- Dtypes for computing in lower precision: fp16, 16b int, bf16.
-- All these dtypes have 16-bit input operands and 32-bit accumulators for the computations.
+- Dtypes for computing in lower precision: fp16, $16$b int, bf16.
+- All these dtypes have $16$-bit input operands and $32$-bit accumulators for the computations.
 - **BFloat16**:
     - low precision storage format to reduce communication volumes of weights and activations.
 - **Quantlib**: Library developed by the researchers to implement multiple deep learning frameworks.
-- Zeros out the lower 16 bits of the fp32 and performs rounding nearest to those bits.
+- Zeros out the lower $16$ bits of the fp32 and performs rounding nearest to those bits.
 - Observations:
     - **fp16 training**: requires hyper-parameter tuning for loss scaling.
     - **int16 training**:  requires fine-grained block-quantization and maintaining block-level scaling factors.
@@ -32,12 +34,12 @@ Misha Smelyanskiy, Bharat Kaul, and Pradeep Dubey
     2. Custom floating point formats
         - More flexibility in terms of increased precision and dynamic range.
         - Provides more robust and accurate training.
-- Dynamically scaled fixed point representation to speed up convolution neural networks by 4×.
+- Dynamically scaled fixed point representation to speed up convolution neural networks by $4×$.
 - Less than 16-bit precision using custom floating point format.
-- Some have researched even 12-bit operations.
+- Some have researched even $12$-bit operations.
 - Some just trained binary weights in lower precision and the rest in full precision.
 - Some used binary activation in lower precision and gradients & weights in full precision.
-- Another work activations and weights were quantized into 6-bits for training.
+- Another work activations and weights were quantized into $6$-bits for training.
 - Flexpoint (fixed point format): this datatype outperforms fp16 and reaches numerical parity with fp32.
 - There's another development for mixed precision training using fp16 and fp32 dtypes.
     - fp16: for storing activations, weights, and gradients. And for computations during forward and backward pass.
@@ -55,9 +57,9 @@ This loss scaling can be avoided using the bf16 datatype.
     - therefore, easier migration to bf16 hardware.
     - takes less area and power saving while saving the fp32 dynamic range.
 - **BFloat16 Representation**
-    - **Sign bit**: 1 bit (`0` or `1`); represents sign of a number.
-    - **Exponent bit**: 8 bits; represents the exponent of a fp number. Bias value is substracted to get the actual exponent. For bf16, bias = 127.
-    - **Mantissa**: 7 bits; represents fraction part of a fp number.
+    - **Sign bit**: $1$ bit (`0` or `1`); represents sign of a number.
+    - **Exponent bit**: $8$ bits; represents the exponent of a fp number. Bias value is substracted to get the actual exponent. For bf16, bias = $127$.
+    - **Mantissa**: $7$ bits; represents fraction part of a fp number.
   ![bfloat16 representation](images/bf16.png)
 - **Comparison of data types**
 
@@ -71,7 +73,7 @@ This loss scaling can be avoided using the bf16 datatype.
 1. **CNNs**: bf16 dtypes used in Convolution, Inner product layers, ReLU, Batch Norm, Pooling, Dropout, Elt layers.
     - Networks: AlexNet, ResNet
 2. **RNNs**
-    - DeepSpeech: two convolution layers, 3 bi-directional GRU, Adam optimizer
+    - DeepSpeech: two convolution layers, $3$ bi-directional GRU, Adam optimizer
     - Neural Machine Translation: a stack of LSTMs, attention model (modeling & translation).
 3. **GANs**
     - DC-GAN: generator (strided convolutions, ReLU), discriminator (convolutions & leaky ReLU), & batch norm layers, input activation for batchnorm layers (bf16), and input tensors for activations & weights have bf16 dtypes.

@@ -1,14 +1,16 @@
-# Attention Is All You Need <sup>[link](https://arxiv.org/abs/1706.03762)</sup>
+# Attention Is All You Need
 
-> By Ashish Vaswani, Noam Shazeer, Niki Parmar,
-Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin
+> By ***Ashish Vaswani, Noam Shazeer, Niki Parmar,
+Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin***
+
+[Research Paper Link](https://arxiv.org/abs/1706.03762)
 
 ### Abstract
 - Best performing model until now: Encoder + Decoder + Attention mechanism
 - Architecture proposed in this paper: Transformer
     - Only attention mechanism; with recurrence and convolutions
-- English-to-German translation tasks: 28.4 BLEU on the WMT 2014
-- English-to-French translation tasks: 41.8 BLEU on the WMT 2014
+- English-to-German translation tasks: $28.4$ BLEU on the WMT 2014
+- English-to-French translation tasks: $41.8$ BLEU on the WMT 2014
 
 ### Introduction
 - Sequence modeling & transduction problems: RNNs, LSTM, Gated RNNs.
@@ -33,13 +35,13 @@ Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin
 
 #### Encoder and Decoder Stacks
 1. **ENCODER**
-    - Stack of N = 6 identical layers. Each has 2 sub-layers (multi-head self-attention layers and feed-forward network).
+    - Stack of $N = 6$ identical layers. Each has $2$ sub-layers (multi-head self-attention layers and feed-forward network).
     - After each sub-layer, they applied layer normalization.
-    - All sub-layers of the model and embedding layers produce an output dimension of 512.
+    - All sub-layers of the model and embedding layers produce an output dimension of $512$.
 2. **DECODER**
-    - Stack of N = 6 identical layers. Each has 2 sub-layers, as above, adds another sub-layer that performs multi-head attention over the output of the encoder sack.
+    - Stack of $N = 6$ identical layers. Each has $2$ sub-layers, as above, adds another sub-layer that performs multi-head attention over the output of the encoder sack.
     - Same as encoder, adds a layer normalization operation.
-    - To ensure prediction for position *i*, t depend on output of position less than *i*, apply masking.
+    - To ensure prediction for position $i$, t depend on output of position less than $i$, apply masking.
 
 #### Attention
 - Mapping a query and a set of key-value pairs to an output.
@@ -51,7 +53,7 @@ Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin
  ![types of attention](images/attention.png)
 
 1. **Scaled Dot-Product Attention**
-    - Inputs: queires, keys (*K*) of dimension (d_k), values (*V*) of dimension (d_v), matrix (*Q*).
+    - Inputs: queires, keys ($K$) of dimension ($d_k$), values ($V$) of dimension ($d_v$), matrix ($Q$).
     - Scaling factor here is $\sqrt{\frac{1}{d_k}}$
     - Two types of attention were used:
         - Additive attention: computes the compatibility function using a feed-forward network with a single hidden layer.
@@ -123,10 +125,10 @@ $$
 
 ### Training
 1. **Training Data and Batching**
-    - WMT 2014 English-German dataset: 4.5 million sentence pairs. Sentences were encoded using byte-pair encoding.
-    - WMT 2014 English-French dataset: 36 million sentences, 32000 word-piece vocabulary.
+    - WMT 2014 English-German dataset: $4.5$ million sentence pairs. Sentences were encoded using byte-pair encoding.
+    - WMT 2014 English-French dataset: $36$ million sentences, $32000$ word-piece vocabulary.
 2. **Hardware and Schedule**
-    - Trained on 8 NVIDIA P100 GPUs. 100,000 steps or 12 hours.
+    - Trained on 8 NVIDIA P100 GPUs. $100,000$ steps or $12$ hours.
 3. **Optimizer**: Adam Optimizer.
     - Hyperparameters are $\beta_1 = 0.9$ $\beta_2 = 0.98$ $\epsilon = 10^{-9}$ and $\text{warmupSteps} = 4000$
     - Variable learning rate is given by:
@@ -136,7 +138,7 @@ $$
 $$
 
 4. **Regularization**
-    - Residual Dropout: Applied to the output of each sub-layer. And to the sum of the embeddings and positional embeddings in both encoder and decoder stacks. Rate used 0.1.
+    - Residual Dropout: Applied to the output of each sub-layer. And to the sum of the embeddings and positional embeddings in both encoder and decoder stacks. Rate used $0.1$.
     - Label Smoothing: Added value
 
 $$
@@ -146,8 +148,8 @@ $$
 
 ### Results
 1. **Machine Translation**
-    - WMT 2014 English-to-German translation task: 28.4 BLEU score.
-    - WMT 2014 English-to-French translation task: 41.0 BLEU score. Took 1/4 of the training cost of the previous model.
+    - WMT 2014 English-to-German translation task: $28.4$ BLEU score.
+    - WMT 2014 English-to-French translation task: $41.0$ BLEU score. Took $1/4$ of the training cost of the previous model.
     - FLOPS used to train a model by multiplying the training time, no. of GPUs used and an estimated GPU capacity.
 2. **Model Variations**
     - To evaluate the importance of different components of the Transformer, they varied our base model in different ways.
