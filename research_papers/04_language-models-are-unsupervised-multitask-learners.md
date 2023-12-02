@@ -1,11 +1,13 @@
-# Language Models are Unsupervised Multitask Learners <sup>[link](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf)</sup>
+# Language Models are Unsupervised Multitask Learners
 
-> By Alec Radford, Jeffrey Wu, Rewon Child, David Luan,
-Dario Amodei, Ilya Sutskever
+> By ***Alec Radford, Jeffrey Wu, Rewon Child, David Luan,
+Dario Amodei, Ilya Sutskever***
+
+[Research Paper Link](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf)
 
 ### Abstract
 - Demonstrate that the language model begins learning the tasks without explicit supervision.
-- GPT-2: 1.5 billion parameter transformer (7/8 points), which underfits WebText.
+- GPT-2: $1.5$ billion parameter transformer ($7/8$ points), which underfits WebText.
 - WebText: New datasets of millions of webpages.
 
 ### Introduction
@@ -22,8 +24,8 @@ Dario Amodei, Ilya Sutskever
     - Demonstrates the ability of language models to perform a wide range of tasks in a zero-shot setting.
 
 ### Approach
-- Set of examples (sequence of variable length): \( x_1, x_2, ..., x_n \).
-- Symbols: \( s_1, s_2, ..., s_n \).
+- Set of examples (sequence of variable length): $(x_1, x_2, ..., x_n)$.
+- Symbols: $(s_1, s_2, ..., s_n)$.
 - Joint probability: product of conditional probabilities.
 
 $$
@@ -41,7 +43,7 @@ $$
 - Approach large and diverse datasets.
 - Dataset created: web scrape.
     - These datasets are filtered by humans, like Reddit, a social media platform.
-- The resulting dataset, WebText, contains 40 million links.
+- The resulting dataset, WebText, contains $40$ million links.
     - The text was extracted from these links using Dragnet and newspaper content extractors.
 - Then, clean and apply the de-duplication technique.
 - Removed all Wikipedia documents from WebText, since it's a common data source for other data sources.
@@ -62,27 +64,27 @@ $$
     - Additional layer normalization was added after the final self-attention block.
     - Initialization was modified with model depth.
     - Scale the weights of residual layers at initialization by a factor of 1/ $\sqrt{N}$.
-    - Vocabulary size = 50,257.
-    - Context size increased from 512 to 1024.
-    - Batch size = 512.
+    - Vocabulary size = $50,257$.
+    - Context size increased from $512$ to $1024$.
+    - Batch size = $512$.
 
 ### Experiments
-|  Name  | Parameters | Layers | dmodel |
-|--------|------------|--------|--------|
-| Equi. Original GPT | 117M       | 12     | 768    |
-| Largest BERT model | 345M       | 24     | 1024   |
-|        | 762M       | 36     | 1280   |
-| GPT-2  | 1542M      | 48     | 1600   |
+|  Name  |  Parameters  |  Layers  |  dmodel  |
+|--------|--------------|----------|----------|
+| Equi. Original GPT | $117$ M       | $12$     | $768$    |
+| Largest BERT model | $345$ M       | $24$     | $1024$   |
+|        | $762$ M       | $36$     | $1280$   |
+| GPT-2  | $1542$ M      | $48$     | $1600$   |
 
 1. **Language Model**
     - Our model does not require any pre-processing or tokenization steps; therefore, we can evaluate it in any language model.
-    - To test how WebText LM performs on zero-shot training. Score 7/8.
+    - To test how WebText LM performs on zero-shot training. Score $7/8$.
     - Large improvements are noticed on small datasets (Penn Treebank & WikiText-2), and datasets are created to measure long-term dependencies.
     - Bad performance: very large datasets.
 2. **Children's Book Test**
     - To check the performance of different categories of words: named entities, nouns, verbs, and prepositions.
     - Performance improves as the model size increases.
-    - GPT-2 achieves 93.3% on common nouns and 89.1% on named entities.
+    - GPT-2 achieves $93.3%$ on common nouns and $89.1%$ on named entities.
 3. **LAMBADA**
     - To test the long-range dependencies in the text. For example, to complete the incomplete statements by humman.
     - Prediction: showed valid continuations of the sentence but are not valid final words.
@@ -91,7 +93,7 @@ $$
 4. **Winograd Schema Challenge**
     - To measure the system's capability to perform commonsense reasoning by measuring its ability to resolve ambiguities in text.
     - Here, they used same method as *Trinh & Le (2018)*.
-    - Accuracy improvement from 7% to 70.70%.
+    - Accuracy improvement from $7%$ to $70.70%$.
 5. **Reading Comprehension**
     - Used  Conversation Question Answering dataset (CoQA).
     - GPT-2 achieved exciting performance without any supervised training.
@@ -102,24 +104,24 @@ $$
 7. **Translation**
     - To test how to translate from one language to another language.
     - Used greedy decoding and use the first generated sentence as a translation.
-    - On the WMT-14 English-French test set, worse performance than word-by-word substitution with a bilingual lexicon. 5 BLEU score.
-    - On the WMT-14 French-English test set, GPT-2 is better, with 11.5 BLEU score.
-    - Still worse than the current best unsupervised machine translation approach (33.5 BLEU score).
+    - On the WMT-14 English-French test set, worse performance than word-by-word substitution with a bilingual lexicon. $5$ BLEU score.
+    - On the WMT-14 French-English test set, GPT-2 is better, with $11.5$ BLEU score.
+    - Still worse than the current best unsupervised machine translation approach ($33.5$ BLEU score).
 8. **Question Answering**
     - Used Natural Questions dataset.
-    - GPT-2 answers 4.1% of questions correctly for datasets like SQUAD.
-    - The performance of GPT-2 is still much, much worse than the 30 to 50% range of open domain question answering systems.
+    - GPT-2 answers $4.1%$ of questions correctly for datasets like SQUAD.
+    - The performance of GPT-2 is still much, much worse than the $30$ to $50%$ range of open domain question answering systems.
 
 ### Generalization vs Memorization
 - Overlap in training and testing datasets results in an over-reporting of generalization performance. This increases with the increase in the datasets. Therefore, it is important to analyze how much data is repeated in testing data.
 - To study this, they created Bloom filters.
     - To improve recall, strings are normalized to lower-case.
-    - False positive is upper bounded by 1/10<sup>8</sup>.
+    - False positive is upper bounded by $1/10^$.
     - Help us calculate the percentage of 8-grams from the dataset that can also be found in the Webtext training set.
-    - Found that common LM dataset has 1-6% overlap, Webtext has 3.2% overlap, and many others have an average of 5.9% overlap.
-    - For CoQA, about 15% of documents in the news domain are already in WebText, and the model performs about 3 F1 better on these.
-        - Gain was measured between 0.1-1.0F1 due to overlap.
-    - LAMBADA has an average overlap of 1.2%.
+    - Found that common LM dataset has $1-6%$ overlap, Webtext has $3.2%$ overlap, and many others have an average of $5.9%$ overlap.
+    - For CoQA, about $15%$ of documents in the news domain are already in WebText, and the model performs about $3$ F1 better on these.
+        - Gain was measured between $0.1-1.0$ F1 due to overlap.
+    - LAMBADA has an average overlap of $1.2%$.
         - GPT-2 performs better in our experiment.
 - Overall analysis, overlap between WebText and other eval datasets provides efficiency.
 - How do we understand how similar text datasets impact performance?
@@ -129,7 +131,7 @@ $$
     - Performance increased as the model size increased, but GPT-2 is underfitted on the Webtext dataset.
 
 ### Related Work
-- *Jozefowicz et al. (2016)* scaled RNN-based language models on the 1 Billion Word Benchmark.
+- *Jozefowicz et al. (2016)* scaled RNN-based language models on the $1$ Billion Word Benchmark.
 - *Bajgar et al. (2016)* also previously improved
 results on the Children's Book Test by creating a much larger training dataset.
 - *Hestness et al. (2017)* conducted
