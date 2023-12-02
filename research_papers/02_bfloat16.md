@@ -60,7 +60,9 @@ This loss scaling can be avoided using the bf16 datatype.
     - **Sign bit**: $1$ bit (`0` or `1`); represents sign of a number.
     - **Exponent bit**: $8$ bits; represents the exponent of a fp number. Bias value is substracted to get the actual exponent. For bf16, bias = $127$.
     - **Mantissa**: $7$ bits; represents fraction part of a fp number.
+
   ![bfloat16 representation](images/bf16.png)
+
 - **Comparison of data types**
 
     | Data Type |  Bit Format  |  Max             |  Min             |  Min Acc.      |

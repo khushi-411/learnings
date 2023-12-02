@@ -61,14 +61,14 @@ Details about training data, preprocessing steps, data statistics, and analysis.
 
     | Batch Size |  Model Samples  |  Tokens   |  Learning Rate    |
     |------------|-----------------|-----------|-------------------|
-    | Small      | $256$           | $524288$  | $6.0 × 10^(-4)$   |
-    | Medium     | $256$           | $524288$  | $3.0 × 10^(-4)$   |
-    | Large      | $256$           | $524288$  | $2.5 × 10^(-4)$   |
-    | XL         | $512$           | $1048576$ | $2.0 × 10^(-4)$   |
-    | 3B         | $512$           | $1048576$ | $1.6 × 10^(-4)$   |
-    | 8B         | $1024$          | $2097152$ | $1.2 × 10^(-4)$   |
-    | 13B        | $1024$          | $2097152$ | $1.0 × 10^(-4)$   |
-    | BLUUMI     | $2048$          | $4194304$ | $6.0 × 10^(-5)$   |
+    | Small      | $256$           | $524288$  | $6.0 \times 10^{-4}$   |
+    | Medium     | $256$           | $524288$  | $3.0 \times 10^{-4}$   |
+    | Large      | $256$           | $524288$  | $2.5 \times 10^{-4}$   |
+    | XL         | $512$           | $1048576$ | $2.0 \times 10^{-4}$   |
+    | 3B         | $512$           | $1048576$ | $1.6 \times 10^{-4}$   |
+    | 8B         | $1024$          | $2097152$ | $1.2 \times 10^{-4}$   |
+    | 13B        | $1024$          | $2097152$ | $1.0 \times 10^{-4}$   |
+    | BLUUMI     | $2048$          | $4194304$ | $6.0 \times 10^{-5}$   |
 
 ### Evaluation
 Present evaluation dataset and compare the capability of the models using data.
