@@ -116,7 +116,7 @@ $$
 - Overlap in training and testing datasets results in an over-reporting of generalization performance. This increases with the increase in the datasets. Therefore, it is important to analyze how much data is repeated in testing data.
 - To study this, they created Bloom filters.
     - To improve recall, strings are normalized to lower-case.
-    - False positive is upper bounded by $1/10^$.
+    - False positive is upper bounded by $1/10^8$.
     - Help us calculate the percentage of 8-grams from the dataset that can also be found in the Webtext training set.
     - Found that common LM dataset has $1-6%$ overlap, Webtext has $3.2%$ overlap, and many others have an average of $5.9%$ overlap.
     - For CoQA, about $15%$ of documents in the news domain are already in WebText, and the model performs about $3$ F1 better on these.
