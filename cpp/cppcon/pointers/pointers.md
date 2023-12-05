@@ -22,7 +22,11 @@ int* px = &x;
 - Memory is our machine is represented as a linear array of addresses.
     - At each address we can store a value (i.e., same amount of bytes).
 
+<div align="center">
+
 ![visualize_memory_pointer](../images/visualize_memory_pointer.png)
+
+</div>
 
 #### Dereferencing a pointer
 - Access the address stored in our pointer to retrive the value.
@@ -92,4 +96,60 @@ sizeof(array);
 sizeof(&array[0]);
 ```
 
-#### Pointers as parameters
+#### Pointers as function parameters
+- While passing array as a function parameter it is treated as a pointer, to treat this as an pointer pass it with size.
+    - Can also use `std::vector <short>`.
+    - Or `std::array<short, T>`; where T is a template parameter.
+
+#### Dynamically allocated arrays
+- Created using `new` keyword.
+```cpp
+int* array = new int[4];
+```
+- Always free up memory after all operatiions.
+```cpp
+delete[] array
+```
+- What if we have 2 pointer pointing to same memory, and we delete one of them?
+    - throws junk
+    ```cpp
+    // new.cpp
+    int* arr = new int[3];
+    // initialize arr
+    int* arr2 = arr;
+    delete[] arr;
+    std::cout << arr2[1];
+    ```
+
+#### nullptr
+- Pointer pointing to nothing i.e., NULL or 0.
+- If we try to retrieve the value by dereferencing it, it results in segmentation fault.
+- It provides addition type safety.
+```cpp
+int* px = nullptr;
+```
+
+#### Pitfalls of pointers
+- Since, pointer allow sharing, we need to think about the ownership (who to which object is reponsible for deleting dynamically allocated memory).
+
+1. **Memory Leaks**
+    - When we forget to reclaim the memory.
+    ```cpp
+    // leak.cpp
+    ```
+    - Use Address sanitizer or Valgrind.
+    - Memory tagging strategies.
+2. **Dangling pointers**
+    - Arise when we point to the address of a value that may not exist.
+    - Try avoiding pointing to data that does not have a same lifetime as the pointer.
+    - Address santizers, memory tools, and debuggers like gdb to debug.
+3. **Double Frees**
+    - Occurs when we are sharing data between 2 or more pointers and we are trying to free our memory but we end up freeing the same memory twice.
+
+#### Smart pointers
+
+#### Function pointers
+- Function itself has a address in memory, so we have function pointers.
+
+#### std::function
+- Allows to store a callable object.
