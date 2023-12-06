@@ -35,15 +35,15 @@ Output on `x86 msvc`: (this is weird because output values are not printing in G
         Notice that `long int` has different values in `Linux` and `Windows`. Now, the question is how big libraries support cross-platform. Well, there are 2-3 ways we could deal with it.
 
 3. **Enabling cross-platform support**
-    - **Case I**: print/take-input/denote values using `PRI` (character string literals for the fscanf() and fwscanf() family of functions).
+    - **Case I**: scan values using `SCN` (character string literals for the fscanf() and fwscanf() family of functions).
         Let's take an example, in `gcc` and `clang`, to print `int64_t`, data type `%ld` is used while in `msvc`, `%lld` is used to denote `int64_t` value. Consider the following code:
         ```cpp
         #include <iostream>
-        #include <inttypes.h>  // to use PRId64
+        #include <inttypes.h>  // to use SCNd64
         int main() {
             [[maybe_unused]] int64_t *p;
             scanf("%ld", p);
-            // scanf("%" PRId64, p);  // to remove warnings use PRId64
+            // scanf("%" SCNd64, p);  // to remove warnings use SCNd64
             return 0;
         }
         ```
@@ -71,7 +71,7 @@ Output on `x86 msvc`: (this is weird because output values are not printing in G
         march=skylake'
         Compiler returned: 0
         ```
-        To resolve the conflict between different platforms, we can use `PRId64` as shown above in the commented part of the code.
+        To resolve the conflict between different platforms, we can use `SCNd64` as shown above in the commented part of the code.
     - **Case II**: Don't rely on any precise type.
         Let's take an example; in the example below, it first checks if `int64_t` and `long` are the same or not; if not, it substitutes its value; if it is equal, it returns a given value.
         ```cpp
