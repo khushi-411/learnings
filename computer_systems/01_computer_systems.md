@@ -24,9 +24,9 @@ In this chapter, we'll learn what happens when we run hello on our system.
 - And stored as a binary disk file.
 - In Unix system, this translation from source file to object file is preformed by compiler driver.
 
-<div align="center">
-![Compilation system](images/compilation_system.png)
-</div>
+<p align="center">
+    <img src="images/compilation_system.png" alt="Compilation system">
+</p>
 
 Here's how GCC compiler driver reads the source file hello.c.
 1. **Preprocessing phase (cpp)**
@@ -75,9 +75,9 @@ Other improtant reasons about how compilation system work:
 
 #### Hardware Organization of a System
 
-<div align="center">
-![Hardware organization](images/hardware_organization.png)
-</div>
+<p align="center">
+    <img src="images/hardware_organization.png" alt="Hardware organization">
+</p>
 
 1. **Buses**
     - Carry information back and forth between the components.
