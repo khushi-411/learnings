@@ -21,7 +21,7 @@ int* px = &x;
 
 #### Let's visualize memory
 - Different types of memory: Registers, Cache, DRAM, Hard Drive(s), Non-local memory, etc.
-- Memory is our machine is represented as a linear array of addresses.
+- Memory in our machine is represented as a linear array of addresses.
     - At each address, we can store a value (i.e., the same amount of bytes).
 
 <div align="center">
@@ -31,7 +31,7 @@ int* px = &x;
 </div>
 
 #### Dereferencing a pointer
-- Access the address stored in our pointer to retrieve the value.
+- It means to access the address stored in our pointer to retrieve the value.
 - Asterisk is used for two contexts, one while declaring the pointer and the other while dereferencing it.
 ```cpp
 // dereference.cpp
