@@ -115,8 +115,8 @@ Other important reasons for how the compilation system works:
 - These instructions copy the bytes in the string from memory to the register file and from there to the display device, where it is displayed on the screen.
 
 ### Caches Matter
-- In the real world, data is copied from main memory to disk; this copying is overhead that slows down the real work program.
-    - Thus major goal is to run these copy operations as fast as possible.
+- In the real world, data is copied from the main memory to the disk; this copying is overhead and slows down the real work program.
+    - Thus, the major goal is to run these copy operations as fast as possible.
 - Larger storage devices are slower than smaller storage devices. And faster devices are expensive to build.
 - Note that the register files just store only a few hundred bytes of information, while the main memory stores billions of bytes.
 - The processor can read data from the register file almost $100$ times faster than from memory.
@@ -169,8 +169,8 @@ The OS achieves these goals via:
     - As seen by each process, it consists of a number of well-defined areas:
         - ***Program code and data***: Code begins at the same fixed point address for all processes, followed by data locations. The code and data areas are initialized directly from the contents of the executable object file.
         - ***Heap***: This area is followed directly after the run-time heap. It expands and contracts dynamically at run time.
-        - ***Shared libraries***: Middle of the address space is an area that hold code and data for shared libraries, like C standard library or math library.
-        - ***Stack***: Compiler uses to implement virtual calls. It expands and contracts dynamcally during the execution of the programs. Each time we call a function the stack grows. When we return a function it contracts.
+        - ***Shared libraries***: Middle of the address space is an area that holds code and data for shared libraries, like C standard library or math library.
+        - ***Stack***: Compiler used to implement virtual calls. It expands and contracts dynamically during the execution of the programs. Each time we call a function, the stack grows. When we return a function, it contracts.
         - ***Kernel virtual memory***: Reserved for the kernel. Applications are not allowed to read or write the contents of this area or directly call functions defined in the kernel code.
 4. **Files**
     - Sequence of bytes.
