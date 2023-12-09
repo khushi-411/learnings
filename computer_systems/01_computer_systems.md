@@ -115,4 +115,129 @@ Other improtant reasons about how compilation system work:
 - These instructions copy the bytes in the string from memory to the register file, and from there to the display device, where it is displayed on the screen.
 
 ### Caches Matter
+- In real world, data is copied from main memory to disk, this copying is overhead that slows down the real work program.
+    - Thus major goal is to run these copy operations as fast as possible.
+- Larger storage device are slower than smaller storage devices. And faster devices are expensive to build.
+- Note that, the register files just stores only a few hundred bytes of information, while the main memory stores main memory.
+- The processor can read data from the register file almost $100$ times faster than from memory.
+- The processor-memory gap continue to increase. It's easier and cheaper to make processor to run faster than to make main memory run faster.
+- To deal with this gap, system designer include smaller faster storage devices called **cache memories**.
+- It's like a temporary staging areas for information that the processor needs.
+- Cache levels:
+    - *L1 cache*: Nearly as fast as a register file, stores nearly thousands of bytes.
+    - *L2 cache*: Nearly $5$ times longer than to process memory from L1 cache, stores nearly hundreds of thousands to millions of bytes. But nearly $5$ - $10$ times faster than the main memory.
+- *Static random access memory*: hardware technology which implements L1 and L2 cache.
+- These days there is another level of cache known as L3 cache.
 
+### Storage Devices from a Hierarchy
+- As described above, these storage devices form memory hierarchy.
+- Storage at one level serves as  cache for storage at the next lower level.
+
+<p align="center">
+    <img src="images/memory_hierarchy.png" alt="Memory Hierarchy">
+</p>
+
+### The Operating System Manages the Hardware
+OS has two primary purpose:
+    - to protect the hardware from misuse by runaway applications.
+    - to provide applications with simple and uniform mechanisms for complicated and often wildly different low-level hardware devices.
+
+The OS achevies these goals via:
+
+1. **Processes**
+    - It is the operating system's abstraction for running program.
+    - OS provides illusion that the program is the only one running on the system. Then they start running step-by-step.
+    - Multiple processes can run concurrently on the same system.
+        - By *concurrently*, we mean instructions of one process are interleaved with the instructions of another process.
+    - Traditional systems can only execute one program at a time, while the newer processor can execute multiple programs at a time.
+    - **Context switching**: Single CPU switching to executing to perform multiple process.
+        - Save the context of old process, restore the context of the new process, and pass control to it.
+    - **Context**: Information of the current state. Like, values of PC, register file, and contents of main memory.
+    - The transition of one process to another is managed by the operating system *kernel*.
+<p align="center">
+    <img src="images/process_switch.png" alt="Process Switch">
+</p>
+2. **Threads**
+    - Process actually consist of multiple execution units called threads.
+    - Required for concurrency.
+    - More efficient than processes.
+3. **Virtual Memory**
+    - It's an illusion that it has exclusive use of the main memory.
+    - Each process has same uniform view of memory called *virtual address space*.
+    - As seen by each process, it consists of a number of well-defined areas:
+        - ***Program code and data***
+        - ***Heap***
+        - ***Shared libraries***
+        - ***Stack***
+        - ***Kernel virtual memory***
+4. **Files**
+    - Sequence of bytes.
+
+### Systems Communicate with Other Systems Using Networks
+- In modern systems, the network is viewed as just another I/O device.
+- When the system copies a sequence of bytes from main memory to the network adapter, the data flows across the network to another machine.
+- Example email, instant messaging, WWW, FTP, telnet, etc.
+
+<p align="center">
+    <img src="images/telnet.png" alt="Use telnet to run hello">
+</p>
+
+### Important Themes
+- System is more than just a hardware.
+
+#### Amdahl's Law
+- Observation about how to improve the performance of one part of a system and what are it's effect in other parts of the system.
+- This law describes a general principle for improving any process.
+
+$$
+\text{Speedup S} = T_{old} / T_{new}
+$$
+
+#### Concurrency and Parallelism
+- Concurrency:  general concept of a system with multiple, simultaneous activities.
+- Parallelism: exploited as multiple levels of abstraction.
+
+1. **Thread-Level Concurrency**
+- With threads we have multiple control flows executing within a single process.
+- *Multiprocessor system*: When we construct a system consisting of multiple processors all under the control of a single operating system kernel.
+    - These have several CPUs integrated onto a single integrated-circuit chip.
+- Here's how multicore processor looks like:
+
+<p align="center">
+    <img src="images/multicore_processor.png" alt="Multi-core processor">
+</p>
+
+- *Hyperthreading* aka *simultaneous multi-threading* allows a single CPU to execute multiple flows of control.
+    - Allows having multiple copies of some of the CPU hardware, program counters, register files, etc.
+- Eg, Intel i7 processor can have each core executing two threads, so four core system actually execute eight threads in parallel.
+- How does it improve performance?
+    - Reduces the need to simulate concurrency when performing multiple tasks.
+    - Can run single application program faster.
+
+2. **Instruction-Level Parallelism**
+- Middle layer of abstraction.
+- Modern processors can execute multiple instructions at one time, known as *intruction-level parallelism*.
+- Most recent processors execute $2$ - $4$ instructions per cycle.
+- Any given instruction requires $20$ cycles or more instructions.
+- Processors that can sustain execution rate faster than $1$ instruction per cycle are known as *superscalar* processors.
+
+3. **Single-Instruction, Multiple-Data (SIMD) Parallelism**
+- Lowest level of abstraction.
+- Single instructions perform multiple operations in parallel.
+- Eg, recent Intel and AMD processors have instructions that can perform $8$ pairs of single-precision floating-point numbers in parallel.
+
+#### The Importance of Abstractions in Computer Systems
+- *Abstraction* on OS, three level: files as an abstraction of I/O devices, virtual memory as an abstraction of program memory, and processes as an abstraction of running program.
+- On the processor side, instruction set architecture provides an abstraction of thee actual processor hardware.
+- Virtual memory is an abstraction for both main memory and disks.
+
+<p align="center">
+    <img src="images/abstractions.png" alt="Abstractions">
+</p>
+
+### Summary
+-  Information inside the computer is represented as groups of bits that are interpreted in different ways, depending on the context.
+- Processors read and interpret binary instructions that are stored in main memory.
+- Described about the memory hierarchy.
+- Caches matter
+- Various levels of abstractions.
