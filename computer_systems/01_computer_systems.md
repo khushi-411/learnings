@@ -10,34 +10,6 @@
 
 In this chapter, we'll learn what happens when we run hello on our system.
 
-### Contents
-1. Information Is Bits + Context
-2. Programs are translated by other Programs into Different Forms
-  - Preprocessing phase (cpp)
-  - Compilation phase (cc1)
-  - Assembly phase
-  - Linking phase
-3. It Pays to Understand How Compilation Systems Work
-  - Optimizing program performance
-  - Understanding link-time errors
-  - Avoiding security holes
-4. Processors Read and Interpret Instructions Stored in Memory
-  - Hardware Organization of a System
-  - Running the hello program
-5. Caches Matter
-6. Storage Dev a Hierarchy
-7. The Operating System Manages the Hardware
-  - Processes
-  - Threads
-  - Virtual Memory
-  - Files
-8. Systems Communicate with Other Systems Using Networks
-9. Important Themes
-  - Amdahl's Law
-  - Concurrency and Parallelism
-  - The Importance of Abstractions in Computer Systems
-10. Summary
-
 ### Information Is Bits + Context
 - Source program is a sequence of bits, each of value $0$ or $1$, organized in $8$-bit chucks called *bytes*.
 - Most computers represent text characters using ASCII standards.
