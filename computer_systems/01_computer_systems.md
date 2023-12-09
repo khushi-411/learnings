@@ -167,11 +167,11 @@ The OS achieves these goals via:
     - It's an illusion that it has exclusive use of the main memory.
     - Each process has the same uniform view of memory called *virtual address space*.
     - As seen by each process, it consists of a number of well-defined areas:
-        - ***Program code and data***
-        - ***Heap***
-        - ***Shared libraries***
-        - ***Stack***
-        - ***Kernel virtual memory***
+        - ***Program code and data***: Code begins at the same fixed point address for all processes, followed by data locations. The code and data areas are initialized directly from the contents of the executable object file.
+        - ***Heap***: This area is followed directly after the run-time heap. It expands and contracts dynamically at run time.
+        - ***Shared libraries***: Middle of the address space is an area that hold code and data for shared libraries, like C standard library or math library.
+        - ***Stack***: Compiler uses to implement virtual calls. It expands and contracts dynamcally during the execution of the programs. Each time we call a function the stack grows. When we return a function it contracts.
+        - ***Kernel virtual memory***: Reserved for the kernel. Applications are not allowed to read or write the contents of this area or directly call functions defined in the kernel code.
 4. **Files**
     - Sequence of bytes.
 
@@ -200,33 +200,33 @@ $$
 - Parallelism: exploited as multiple levels of abstraction.
 
 1. **Thread-Level Concurrency**
-- With threads, we have multiple control flows executing within a single process.
-- *Multiprocessor system*: When we construct a system consisting of multiple processors all under the control of a single operating system kernel.
-    - These have several CPUs integrated onto a single integrated circuit chip.
-- Here's what a multicore processor looks like:
+    - With threads, we have multiple control flows executing within a single process.
+    - *Multiprocessor system*: When we construct a system consisting of multiple processors all under the control of a single operating system kernel.
+        - These have several CPUs integrated onto a single integrated circuit chip.
+    - Here's what a multicore processor looks like:
 
 <p align="center">
     <img src="images/multicore_processor.png" alt="Multi-core processor">
 </p>
 
-- *Hyperthreading* aka *simultaneous multi-threading* allows a single CPU to execute multiple flows of control.
-    - Allows having multiple copies of some of the CPU hardware, program counters, register files, etc.
-- For Eg, the Intel i7 processor can have each core executing two threads, so a four-core system actually executes eight threads in parallel.
-- How does it improve performance?
-    - Reduces the need to simulate concurrency when performing multiple tasks.
-    - Can run single application programs faster.
+    - *Hyperthreading* aka *simultaneous multi-threading* allows a single CPU to execute multiple flows of control.
+        - Allows having multiple copies of some of the CPU hardware, program counters, register files, etc.
+    - For Eg, the Intel i7 processor can have each core executing two threads, so a four-core system actually executes eight threads in parallel.
+    - How does it improve performance?
+        - Reduces the need to simulate concurrency when performing multiple tasks.
+        - Can run single application programs faster.
 
 2. **Instruction-Level Parallelism**
-- Middle layer of abstraction.
-- Modern processors can execute multiple instructions at one time, known as *instruction-level parallelism*.
-- Most recent processors execute $2$ - $4$ instructions per cycle.
-- Any given instruction requires $20$ cycles or more instructions.
-- Processors that can sustain an execution rate faster than $1$ instruction per cycle are known as *superscalar* processors.
+    - Middle layer of abstraction.
+    - Modern processors can execute multiple instructions at one time, known as *instruction-level parallelism*.
+    - Most recent processors execute $2$ - $4$ instructions per cycle.
+    - Any given instruction requires $20$ cycles or more instructions.
+    - Processors that can sustain an execution rate faster than $1$ instruction per cycle are known as *superscalar* processors.
 
 3. **Single-Instruction, Multiple-Data (SIMD) Parallelism**
-- The lowest level of abstraction.
-- Single instructions perform multiple operations in parallel.
-- For Eg, recent Intel and AMD processors have instructions that can perform $8$ pairs of single-precision floating-point numbers in parallel.
+    - The lowest level of abstraction.
+    - Single instructions perform multiple operations in parallel.
+    - For Eg, recent Intel and AMD processors have instructions that can perform $8$ pairs of single-precision floating-point numbers in parallel.
 
 #### The Importance of Abstractions in Computer Systems
 - *Abstraction* on OS has three levels: files as an abstraction of I/O devices, virtual memory as an abstraction of program memory, and processes as an abstraction of running programs.
