@@ -203,18 +203,17 @@ $$
     - With threads, we have multiple control flows executing within a single process.
     - *Multiprocessor system*: When we construct a system consisting of multiple processors all under the control of a single operating system kernel.
         - These have several CPUs integrated onto a single integrated circuit chip.
-    - Here's what a multicore processor looks like:
-
-<p align="center">
-    <img src="images/multicore_processor.png" alt="Multi-core processor">
-</p>
-
     - *Hyperthreading* aka *simultaneous multi-threading* allows a single CPU to execute multiple flows of control.
         - Allows having multiple copies of some of the CPU hardware, program counters, register files, etc.
     - For Eg, the Intel i7 processor can have each core executing two threads, so a four-core system actually executes eight threads in parallel.
     - How does it improve performance?
         - Reduces the need to simulate concurrency when performing multiple tasks.
         - Can run single application programs faster.
+    - Here's what a multicore processor looks like:
+
+<p align="center">
+    <img src="images/multicore_processor.png" alt="Multi-core processor">
+</p>
 
 2. **Instruction-Level Parallelism**
     - Middle layer of abstraction.
