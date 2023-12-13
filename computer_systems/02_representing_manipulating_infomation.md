@@ -67,37 +67,37 @@
 | ------------|------|------|------|------|------|------|
 | Binary      | 0001 | 0111 | 0011 | 1010 | 0100 | 1100 |
 
-- When $x$ is a power of $2$, $x = 2_n$, $n$ can be written in the form of $i + 4j$.
-- Example: $x = 2048 = 2^{11}$, will have $n = 11 = 3 + 4 . 2$, and its hexadecimal representation is given by $0x800$.
+- When $x$ is a power of $2$, $x = 2^n$, $n$ can be written in the form of $i + 4j$.
+- Example: $x = 2048 = 2^{11}$, will have $n = 11 = 3 + 4 \times 2$, and its hexadecimal representation is given by $0x800$.
 
-- To convert decimal number to hexadecimal number: repeatedly divide by $16$ as follows, here decimal is $ 314,156$:
+- To convert decimal number to hexadecimal number: repeatedly divide by $16$ as follows, here decimal is $314,156$ :
     - Hexadecimal representaion is $0x4CB2C$.
 
 $$
-314,156 = 19,634 . 16 + 12   (C)
+314,156 = 19,634 \times 16 + 12   (C)
 $$
 
 $$
-19,634 = 1,227 . 16 + 2      (2)
+19,634 = 1,227 \times 16 + 2      (2)
 $$
 
 $$
-1,227 = 76 . 16 + 11         (B)
+1,227 = 76 \times 16 + 11         (B)
 $$
 
 $$
-76 = 4 . 16 + 12             (C)
+76 = 4 \times 16 + 12             (C)
 $$
 
 $$
-4 = 0 . 16 + 4               (4)
+4 = 0 \times 16 + 4               (4)
 $$
 
 - Conversly, to convert hexadecimal to decimal we multiple each term by $16$ with proper power.
 - For example, for number $0x7AF$:
 
 $$
-7 . 16^2 + 10 . 16 + 15 = 7 . 256 + 10 . 16 + 15 = 1,792 + 160 + 15 = 1,967.
+7 \times 16^2 + 10 \times 16 + 15 = 7 \times 256 + 10 \times 16 + 15 = 1,792 + 160 + 15 = 1,967.
 $$
 
 #### Data Sizes
@@ -105,8 +105,8 @@ $$
 - A machine with a $w$ bit word size, the virtual address can range from $0$ to $2^w - 1$.
     - Program can access to at most $2^w$ bytes.
 - In recent years there has been a wide shift with $32$ bits machine to a $64$ bits machine.
-    - $32$ bit machine: $4$ GB virtual address space, i.e., $4 x 10^9$ bytes.
-    - $64$ bit machine: $16$ exabytes, i.e., $1.84 . 10^{19}$ bytes.
+    - $32$ bit machine: $4$ GB virtual address space, i.e., $4 \times 10^9$ bytes.
+    - $64$ bit machine: $16$ exabytes, i.e., $1.84 \times 10^{19}$ bytes.
 - A $64$ bit machine can also run program designed for a $32$ bit machine for backward compatibility.
 - Each computer and compilers can have different data formats of data types as designed by engineers. Here's how C has:
 
