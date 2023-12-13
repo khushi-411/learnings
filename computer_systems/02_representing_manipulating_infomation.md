@@ -35,6 +35,8 @@
 - Characters $F$ and $A$ can be writen in both uppercase and lowercase).
 - *Practice Task*: Converting decimal, binary, and hexadecimal representations of bit patters.
 
+<div align="center">
+
 | Hex Digit | Decimal Value | Binary Value                            |
 |:-----------:|:---------------:|:-----------------------------------------:|
 | 0         | 0             | 0000                                    |
@@ -54,25 +56,40 @@
 | E         | 14            | 1110                                    |
 | F         | 15            | 1111                                    |
 
+</div>
+
 - For example, convert this number $0x173A4C$ to binary format:
     - This can be done by expanding each term to hexadecimal format.
 - We'll get a binary representation.
 - To convert this binary representation, we can split into groups of $4$ bits each and follow the table.
 
 | Hexadecimal |  1   |  7   |  3   |  A   |  4   |  C   |
+| ------------|------|------|------|------|------|------|
 | Binary      | 0001 | 0111 | 0011 | 1010 | 0100 | 1100 |
 
 - When $x$ is a power of $2$, $x = 2_n$, $n$ can be written in the form of $i + 4j$.
-- Example: $x = 2048 = 2_{11}$, will have $n = 11 = 3 + 4 x 2$, and its hexadecimal representation is given by $0x800$.
+- Example: $x = 2048 = 2^{11}$, will have $n = 11 = 3 + 4 . 2$, and its hexadecimal representation is given by $0x800$.
 
 - To convert decimal number to hexadecimal number: repeatedly divide by $16$ as follows, here decimal is $ 314,156$:
     - Hexadecimal representaion is $0x4CB2C$.
 
 $$
 314,156 = 19,634 . 16 + 12   (C)
+$$
+
+$$
 19,634 = 1,227 . 16 + 2      (2)
+$$
+
+$$
 1,227 = 76 . 16 + 11         (B)
+$$
+
+$$
 76 = 4 . 16 + 12             (C)
+$$
+
+$$
 4 = 0 . 16 + 4               (4)
 $$
 
@@ -80,18 +97,20 @@ $$
 - For example, for number $0x7AF$:
 
 $$
-7 . 16_2 + 10 . 16 + 15 = 7 . 256 + 10 . 16 + 15 = 1,792 + 160 + 15 = 1,967.
+7 . 16^2 + 10 . 16 + 15 = 7 . 256 + 10 . 16 + 15 = 1,792 + 160 + 15 = 1,967.
 $$
 
 #### Data Sizes
 - Every computer has ***word size***, which is a nominal size of pointer data.
-- A machine with a $w$ bit word size, the virtual address can range from $0$ to $2_w - 1$.
-    - Program can access to at most $2_w$ bytes.
+- A machine with a $w$ bit word size, the virtual address can range from $0$ to $2^w - 1$.
+    - Program can access to at most $2^w$ bytes.
 - In recent years there has been a wide shift with $32$ bits machine to a $64$ bits machine.
-    - $32$ bit machine: $4$ GB virtual address space, i.e., $4 x 10_9$ bytes.
-    - $64$ bit machine: $16$ exabytes, i.e., $1.84 x 10_{19}$ bytes.
+    - $32$ bit machine: $4$ GB virtual address space, i.e., $4 x 10^9$ bytes.
+    - $64$ bit machine: $16$ exabytes, i.e., $1.84 . 10^{19}$ bytes.
 - A $64$ bit machine can also run program designed for a $32$ bit machine for backward compatibility.
 - Each computer and compilers can have different data formats of data types as designed by engineers. Here's how C has:
+
+<div align="center">
 
 | C Declaration | Signed/Unsigned | 32-bit | 64-bit |
 |---------------|-----------------|:--------:|:--------:|
@@ -110,6 +129,8 @@ $$
 | char *        |                | 4      | 8      |
 | float         |                | 4      | 4      |
 | double        |                | 8      | 8      |
+
+</div>
 
 - To avoid this difference ISO C99 introduced a class of data types where the data size are fixed regardless of any computer and compilers.
 - Note that, most of the compilers and computer declare *char* as signed data type. But C does not gureentee this.
