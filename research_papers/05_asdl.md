@@ -1,6 +1,8 @@
-# The Zephyr Abstract Syntax Description Language <sup>[link](https://www.usenix.org/legacy/publications/library/proceedings/dsl97/full_papers/wang/wang.pdf)</sup>
+# The Zephyr Abstract Syntax Description Language
 
 > By Daniel C. Wang, Andrew W. Appel, Jeff L. Korn, Christopher S. Serra
+
+[Research Paper Link](https://www.usenix.org/legacy/publications/library/proceedings/dsl97/full_papers/wang/wang.pdf)
 
 ### Abstract
 - ASDL: Abstract Syntax Description Language
