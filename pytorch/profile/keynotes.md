@@ -1,3 +1,14 @@
+#### Steps
+1. Import all necessary libraries.
+2. Instantiate a simple neural network model.
+3. Using profiler to analyze **execution time**.
+4. Using profiler to analyze **memory consumption**.
+5. Using **tracing** functionality.
+6. Examining **stack traces**.
+7. Visualizing data as a **flame graph**.
+8. Using profiler to analyze **long-running jobs**.
+
+
 #### Tuning PyTorch Models
 - Multi-process Data Loading 
 - Memory Pinning
