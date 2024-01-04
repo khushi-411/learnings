@@ -137,7 +137,9 @@ class LinearLayer(Module):
     - In experiments, initially CUDA memory management functions like (cudaMalloc and cudaFree) slows down the execution by blocking the CPU thread, hence lowering the utilization of the GPU.
     - This effect disappears in further iterations as PyTorch caching memory allocator starts reusing previously allocated regions.
 3. **Benchmarks**
+
 <div align= "center">
+
 | Framework      | AlexNet     | VGG-19     | ResNet-50   | MobileNet   | GNMTv2      | NCF         |
 | -------------- | ----------- | ---------- | ----------- | ----------- | ----------- | ----------- |
 | Chainer        | 778 ± 15    | N/A        | 219 ± 1     | N/A         | N/A         | N/A         |
@@ -146,6 +148,7 @@ class LinearLayer(Module):
 | PaddlePaddle   | 933 ± 123   | 112 ± 2    | 192 ± 4     | 557 ± 24    | N/A         | N/A         |
 | TensorFlow     | 1422 ± 27   | 66 ± 2     | 200 ± 1     | 216 ± 15    | 9631 ± 1.3% | 4.8e6 ± 2.9%|
 | PyTorch        | 1547 ± 316  | 119 ± 1    | 212 ± 2     | 463 ± 17    | 15512 ± 4.8%| 5.4e6 ± 3.4%|
+
 </div>
 
 ### Conclusion
