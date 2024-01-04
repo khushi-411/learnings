@@ -41,7 +41,89 @@ Main ideas:
 ### Usability centric design
 
 #### Deep learning models are just Python programs
- 
+- PyTorch foregoes the benefits of a graph-metaprogramming based approach.
+- It extends to all aspects of deep learning workflows.
+    - Defining layers, composing models, loading data, running optimizers, and parallelizing the training process.
+- PyTorch programs are executed eagerly.
+    - Users do not have to wait for lengthy compilation before they can start running their program.
+    - We are also observe intermediate compulations to analyze the model.
+Some neural network examples:
+```python
+class LinearLayer(Module):
+    def __init__(self, in_sz, out_sz):
+        super().__init__()
+        t1 = torch.randn(in_sz, out_sz)
+        self.w = nn.Parameter(y1)
+        t2 = torch.randn(out_sz)
+        self.b = nn.Parameter(t2)
+
+    def forward(self, activations):
+        t = torch.mm(activations, self.w)
+        return t + self.b
+```
+
+#### Interoperability and extensibility
+- It allows for bidirectional exchange of data with external libraries.
+    - Example converting between NumPy arrays and PyTorch tensors, or to exchange data stored using DLPack format. There's no data copying so the operation is very cheap.
+- Automatic differentiation has allowed users to support for custom differentiable functions.
+    - Users have to define a new subclass of **`torch.autograd.Function`**. This implements `forward()` and `backward()` methods.
+        - These perform its derivatives (vector-Jacobian product).
+- New datasets can be added by subclassing **`torch.utils.data.Dataset`**. It implements two methods `__getitem__` (the indexing operator) and `__len__` (the length operator).
+   - This makes datasets behaves like a lists (possibily lazy).
+
+#### Automatic differentiation
+- Automatically compute gradients (all in python programs).
+- It uses operator overloading approach, which builds representation of the computed function every time its executed.
+- Performs reverse-mode automatic differentiation.
+- Differentiating functions with more outputs than inputs is more efficiently executed using forward-mode automatic differentiation.
+    - Less common in ML applications.
+    - Performs it using array-level dual numbers.
+- Performs differentiation through code using mutation on tensors.
+- Users can decide wheather to copy while writing or not.
+
+### Performance focused implementation
+
+#### An efficient C++ core
+- Written in C++
+- `libtorch`: implements the tensor data structure, GPU and CPU operators, and basic parallel primitives.
+- Provides automatic differentiation system.
+    - Ensures computation is executed entirely in a multithreaded evaluator not in Python global lock.
+- Python bindings are generated using YAML meta-data files.
+    - This allowed to create bindings to other languages too.
+- We can also write code without Python using TorchScript engine.
+
+#### Separate control and data flow
+- Strict seperation between its control (program branches, loops) and data flow (tensors and operations performed on them).
+    - Control is handled by Python and optimized C++ code is executed on the host CPU.
+- It execute operators asynchronously on GPU.
+    - It queues (FIFO) CUDA kernel invocations to the GPU hardware.
+    - This allows the user to perform the overlap the execution of Python code on CPU with tensor operations on GPU.
+
+#### Custom caching tensor allocator
+- Critical to optimize the speed of the dynamic memory allocators.
+    - Because every operator must dynamically allocate output tensor.
+- It replys on optimized libraries to perform tasks on CPU.
+- In GPU, it has `cudaFree`, which blocks its caller untill pervious process is executed.
+    - Therefore PyTorch has its own **custom allocator**. It builds up a cache of CUDA memory and reassigns it to later allocations without further use of CUDA APIs.
+        - It's beneficial because taking all GPU memory ahead of time would prevent user from utilizing other GPU-enabled Python packages.
+        - It was turned for specific memory usage pattern of DL.
+- **One-pool-per-stream design** improves the performance of the allocator.
+    - Because CPU runs ahead of the GPU, memory is freed on the CPU before it's last use on the GPU finishes.
+    - Seems limiting because allocations end up fragmentation per stream, but in practice PyTorch never uses multiple streams.
+- Streams serialize execution
+    - If the free precedes the reallocation on the CPU, the same order will occur on the GPU.
+    - Allocator can reallocate memory freed on the CPU immediately as long as the new allocatoin is used on the same stream as the freed region.
+- Data loading and distributed computing utilities are exceptions to the one stream design.
+
+#### Multiprocessing
+- Due to global interpreter lock (GIL), python default implementation does npt allow concurrent threads to execute in parallel.
+- To solve this program Python community has established a standard `multiprocessing` module.
+    - Implementation is inefficient.
+- Hence, PyTorch has **`torch.multiproccessing`** module. It automatically moves the data of tensors snet to other processes to shared memory instead of sending it over communication channel.
+- Improves performance, makes proccess weaker.
+- Transparently handles sharing of CUDA tensors.
+
+#### Reference counting
 
 ### Conclusion
 - Usable with careful performance considerations.
