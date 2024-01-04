@@ -119,7 +119,7 @@ class LinearLayer(Module):
 - Due to global interpreter lock (GIL), python's default implementation does not allow concurrent threads to execute in parallel.
 - To solve this program Python community has established a standard `multiprocessing` module.
     - Implementation is inefficient.
-- Hence, PyTorch has **`torch.multiprocessing** module. It automatically moves the data of tensors to other processes to shared memory instead of sending it over a communication channel.
+- Hence, PyTorch has **`torch.multiprocessing`** module. It automatically moves the data of tensors to other processes to shared memory instead of sending it over a communication channel.
 - Improves performance, makes process weaker.
 - Transparently handles sharing of CUDA tensors.
 
