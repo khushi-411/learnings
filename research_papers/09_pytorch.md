@@ -8,27 +8,27 @@ Sasank Chilamkurthy, Benoit Steiner, Lu Fang, Junjie Bai, Soumith Chintala**
 [Research Paper Link](https://arxiv.org/abs/1912.01703)
 
 ### Abstract
-- Pythonic programming style (easy to use), speed, support multiple hardware architectures.
+- Pythonic programming style (easy to use), speed, and support multiple hardware architectures.
 - Paper presents the internal implementation of PyTorch.
 - Also, presents how its runtime enables a compelling performance.
 
 ### Introduction
-- Earlier frameworks like Caffe, CNTK, TensorFlow, and Theano construct a static dataflow graph that represents computation and is applied repeatedly to batches of data.
+- Earlier frameworks like Caffe, CNTK, TensorFlow, and Theano constructed a static dataflow graph that represents computation and is applied repeatedly to batches of data.
 - PyTorch performs all the computations ahead of time.
 - Uses dynamic tensor computation with automatic differentiation and GPU acceleration.
     - Previous work: Chainer (performance is not good here), Torch. DyNet (these models have limited applicability).
 
 ### Background
 Trends popular in deep learning:
-1. **Domain specific languages**: turn multidimensional arrays into first-class objects.
+1. **Domain-specific languages**: turn multidimensional arrays into first-class objects.
     - In the 1960s, languages like APL, MATLAB, R, and Julia.
     - These days languages like NumPy, Torch, Eigen, and Lush: are made array-based programming.
-2. **Development of automatic differentiation**: Allows gradient based optimization.
+2. **Development of automatic differentiation**: Allows gradient-based optimization.
     - Other autograd packages: Chainer, DyNet, Lush, Torch, Jax, Flux.jl
-3. **Movement to open-source Python ecosystem**:
+3. **Movement to the open-source Python ecosystem**:
     - Communities that started this: NumPy, SciPy, and Pandas.
     - Other softwares: Lush in Lisp, Torch in C++, Objective-C and Lua, EBLearn in C++, Caffe in C++.
-4. **Take advantage of hardware accelerators**.
+4. **Take advantage of hardware accelerators**:
     - Frameworks: Caffe, Torch7, TensorFlow.
 
 ### Design principles
@@ -42,7 +42,7 @@ Main ideas:
 
 #### Deep learning models are just Python programs
 - PyTorch foregoes the benefits of a graph-metaprogramming based approach.
-- It extends to all aspects of deep learning workflows.
+- This extension applies to all aspects of deep learning workflows.
     - Defining layers, composing models, loading data, running optimizers, and parallelizing the training process.
 - PyTorch programs are executed eagerly.
     - Users do not have to wait for lengthy compilation before they can start running their program.
@@ -75,7 +75,7 @@ class LinearLayer(Module):
 - Automatically compute gradients (all in Python programs).
 - It uses an operator overloading approach, which builds a representation of the computed function every time it is executed.
 - Performs reverse-mode automatic differentiation.
-- Differentiating functions with more outputs than inputs is more efficiently executed using forward-mode automatic differentiation.
+- Differentiation of functions with more outputs than inputs is more efficiently executed using forward-mode automatic differentiation.
     - Less common in ML applications.
     - Performs it using array-level dual numbers.
 - Performs differentiation through code using mutation on tensors.
@@ -121,7 +121,7 @@ class LinearLayer(Module):
     - Implementation is inefficient.
 - Hence, PyTorch has a **`torch.multiprocessing`** module. It automatically moves the data of tensors to other processes to shared memory instead of sending it over a communication channel.
 - Improves performance, makes process weaker.
-- Transparently handles sharing of CUDA tensors.
+- It transparently handles the sharing of CUDA tensors.
 
 #### Reference counting
 - Garbage collection is a way to automatically manage tensor memory.
@@ -135,7 +135,7 @@ class LinearLayer(Module):
 1. **Asynchronous dataflow**
 2. **Memory management**
     - In experiments, initially, CUDA memory management functions like (cudaMalloc and cudaFree) slow down the execution by blocking the CPU thread, hence lowering the utilization of the GPU.
-    - This effect disappears in further iterations as PyTorch caching memory allocator starts reusing previously allocated regions.
+    - This effect disappears in further iterations as PyTorch's caching memory allocator starts reusing previously allocated regions.
 3. **Benchmarks**
 
 <div align= "center">
@@ -152,6 +152,6 @@ class LinearLayer(Module):
 </div>
 
 ### Conclusion
-- Usable with careful performance considerations.
+- Usable with careful consideration of performance.
 - Worked on PyTorch JIT.
 - Improved support for distributed computation.
