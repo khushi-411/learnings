@@ -14,14 +14,14 @@ Sasank Chilamkurthy, Benoit Steiner, Lu Fang, Junjie Bai, Soumith Chintala**
 
 ### Introduction
 - Earlier frameworks like Caffe, CNTK, TensorFlow, and Theano construct a static dataflow graph that represents computation and is applied repeatedly to batches of data.
-- PyTorch performed all the computations ahead of time.
+- PyTorch performs all the computations ahead of time.
 - Uses dynamic tensor computation with automatic differentiation and GPU acceleration.
     - Previous work: Chainer (performance is not good here), Torch. DyNet (these models have limited applicability).
 
 ### Background
 Trends popular in deep learning:
 1. **Domain specific languages**: turn multidimensional arrays into first-class objects.
-    - Starting in the 1960s, languages like APL, MATLAB, R, and Julia.
+    - In the 1960s, languages like APL, MATLAB, R, and Julia.
     - These days languages like NumPy, Torch, Eigen, and Lush: are made array-based programming.
 2. **Development of automatic differentiation**: Allows gradient based optimization.
     - Other autograd packages: Chainer, DyNet, Lush, Torch, Jax, Flux.jl
@@ -89,7 +89,7 @@ class LinearLayer(Module):
 - Provides automatic differentiation system.
     - Ensures computation is executed entirely in a multithreaded evaluator, not in Python global lock.
 - Python bindings are generated using YAML meta-data files.
-    - This allowed to creation of bindings to other languages too.
+    - This allowed the creation of bindings to other languages too.
 - We can also write code without Python using the TorchScript engine.
 
 #### Separate control and data flow
@@ -109,17 +109,17 @@ class LinearLayer(Module):
         - It was turned for specific memory usage patterns of DL.
 - **One-pool-per-stream design** improves the performance of the allocator.
     - Because the CPU runs ahead of the GPU, memory is freed on the CPU before its last use on the GPU finishes.
-    - Seems limiting because allocations end up fragmentation per stream, but in practice, PyTorch never uses multiple streams.
+    - This seems limiting because allocations end up fragmentation per stream, but in practice, PyTorch never uses multiple streams.
 - Streams serialize execution
     - If the free precedes the reallocation on the CPU, the same order will occur on the GPU.
     - Allocator can reallocate memory freed on the CPU immediately as long as the new allocation is used on the same stream as the freed region.
 - Data loading and distributed computing utilities are exceptions to the one-stream design.
 
 #### Multiprocessing
-- Due to global interpreter lock (GIL), python's default implementation does not allow concurrent threads to execute in parallel.
-- To solve this program Python community has established a standard `multiprocessing` module.
+- Due to Global Interpreter Lock (GIL), Python's default implementation does not allow concurrent threads to execute in parallel.
+- To solve this program the Python community has established a standard `multiprocessing` module.
     - Implementation is inefficient.
-- Hence, PyTorch has **`torch.multiprocessing`** module. It automatically moves the data of tensors to other processes to shared memory instead of sending it over a communication channel.
+- Hence, PyTorch has a **`torch.multiprocessing`** module. It automatically moves the data of tensors to other processes to shared memory instead of sending it over a communication channel.
 - Improves performance, makes process weaker.
 - Transparently handles sharing of CUDA tensors.
 
