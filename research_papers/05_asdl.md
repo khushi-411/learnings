@@ -32,18 +32,44 @@
     - Language features must have a natural encoding in all the target languages.
 
 ### ASDL by example
-Grammar of ASDL:
-```asdl
-definitions  =  {typ_id "=" type}
-    type     =  sum_type | product_type
-product type =  fields
-  sum type   =  constructor f"|" constructorg
-                ["attributes" fields]
-constructor  =  con_id [fields]
-    fields   = "(" {field ","} field ")"
-    field    =  typ_id ["?" | "*"] [id]
-```
+- Grammar of ASDL:
+    ```asdl
+    definitions  =  {typ_id "=" type}
+        type     =  sum_type | product_type
+    product type =  fields
+      sum type   =  constructor f"|" constructorg
+                    ["attributes" fields]
+    constructor  =  con_id [fields]
+        fields   = "(" {field ","} field ")"
+        field    =  typ_id ["?" | "*"] [id]
+    ```
 - ASDL description consists of a sequence of productions, which defines the structure of tree-like data structures.
+
+#### Lexical Issues
+- Lexical structure of tokens used in the ASDL grammar:
+    ```asdl
+       upper  =  "A" | ... | "Z"
+      lower   =  "a" | ... | "z"
+      alpha   =  "_" | upper | lower
+    alpha_num =  alpha | "0" | ... | "9"
+      typ_id  =  lower {alpha_num}
+      con_id  =  upper {alpha_num}
+        id    =  typ_id | con_id
+    ```
+- It contains formal semantic information that should be preserved by a tool when translating descriptions into implementations.
+- The names of types and constructors are restricted to the intersection of valid identifiers in the initial set of target languages.
+- To help user to understand between constructors and type names:
+    - `types` are required to begin with a lower case.
+    - `constructor names` must begin with an upper case.
+
+#### ASDL Fundamentals
+- Consists of three fundamental constructs: ***types, constructors***, and ***productions***.
+- **type**: productions that enumerate the constructors for that type.
+    - Eg: *stm* type. It's value is created by one of three constructors (nodes) *Compound*, *Assign*, and *Print*.
+    - *Compound* constructor has two fields whose values are of type *stm*, aka, it has two children that are subtrees.
+    - *binop* type consists of only constructors which have no fields. These types are finite enumerations of values.
+- ASDL does not provide an explicit enumeration type.
+- There are three (int, indentifier, and string) primitive pre-defined types in ASDL.
 - ASDL description of trivial programming language:
     ```asdl
       stm    =  Compound(stm, stm)
@@ -55,26 +81,58 @@ constructor  =  con_id [fields]
              |  Op(exp, binop, exp)
       binop  =  Plus | Minus | Times | Div
     ```
+- This shows it is easy to automatically generate data type declarations in target languages.
 
-#### Lexical Issues
-Lexical structure of tokens used in the ASDL grammar:
-```asdl
-   upper  =  "A" | ... | "Z"
-  lower   =  "a" | ... | "z"
-  alpha   =  "_" | upper | lower
-alpha_num =  alpha | "0" | ... | "9"
-  typ_id  =  lower {alpha_num}
-  con_id  =  upper {alpha_num}
-    id    =  typ_id | con_id
-```
-- It contains formal semantic information that should be preserved by a tool when translating descriptions into implementations.
-- The names of types and constructors are restricted to the intersection of valid identifiers in the initial set of target languages.
-- To help user to understand between constructors and type names:
-    - `types` are required to begin with a lower case.
-    - `constructor names` must begin with an upper case.
+#### Generating Code from ASDL Descriptions
+- Each ASDL type is represented as a pointer to a structure.
+- Example to translate the *stm* type into C.
+    ```asdl
+    typedef struct_stm *stm_ty;
+    struct_stm {
+      enum {Compound kind=1, Assign kind=2,
+            Print_kind=3} kind;
+      union {
+        struct { stm_ty stm1; stm_ty stm2; } Compound;
+        struct { ... } Assign;
+        struct { ... } Print;
+      } v;
+    };
+    ...
+    enum binop_ty {Plus=1, Minus=2, Times=3, Div=4};
+    ...
+    stm_ty Compound (stm_ty stm1, stm_ty stm2) f
+        stm_ty p;
 
-### ASDL Fundamentals
-- Consists of three fundamental constructs: ***types, constructors***, and ***productions***.
+        p = malloc(sizeof(*p));
+        p->kind = Compound kind;
+        p->v.Compound.stm1 = stm1;
+        p->v.Compound.stm2 = stm2;
+        return p;
+    }
+    stm_ty Assign (identifier_ty identifier1, exp_ty exp1) { ... }
+    stm_ty Print (exp_list_ty_exp_list1) { ... }
+    ```
+- Translation to a language to ML that has algebraic data type:
+    ```asdl
+    datatype stm = Compound of (stm * stm)
+                 | Assign of (identifier * exp)
+                 | Print of (exp list)
+    ```
+
+#### Field Names
+- ASDL description allow the specification of a field name to access the values of constructor fields.
+- Tools can easily create field names based on position and type of a constructor field.
+- Providing names of the field improves redability of descriptions and code generated from those descriptions.
+- ASDL description with field names:
+    ```asdl
+      stm    =  Compound(stm head, stm next)
+             |  Assign(identifier lval, exp rval)
+             |  Print(exp list args)
+    exp list =  ExpList(exp head, exp list next)
+             | Nil
+    ```
+
+#### Sequences
 
 ### Future Work
 - It should support modularized descriptions.
