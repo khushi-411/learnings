@@ -1,6 +1,6 @@
 # The Zephyr Abstract Syntax Description Language
 
-> By Daniel C. Wang, Andrew W. Appel, Jeff L. Korn, Christopher S. Serra
+> By ***Daniel C. Wang, Andrew W. Appel, Jeff L. Korn, Christopher S. Serra***
 
 [Research Paper Link](https://www.usenix.org/legacy/publications/library/proceedings/dsl97/full_papers/wang/wang.pdf)
 
@@ -225,7 +225,51 @@
 
 ### Evaluation
 
-#### ASDL SUIF
+#### ASDL SUIF (Stanford University Intermediate Format)
+- SUIF uses an object oriented framework to implement its core IR.
+- ASDL encoding in SUIF class hierarchy:
+    ```asdl
+    instruction = In_rrr(...)
+                | In_ldc(...)
+                  ...
+                | In_gen(...)
+                  attributes(...)
+    ```
+- SUIF class hierarchy
+
+<div align="center">
+![SUIF class hierarchy](images/suif.png)
+</div>
+
+- Attributes in ASDL provides only one level of inheritance. To handle more types extra intermediate types need to be introduced.
+- The C++ code uses subtyping to express the constraint that a field must be a particular subtype of an abstract class.
+    - In ASDL this is equivalent to using ASDL constructor as a type in the description.
+- Issues: how to encode pointers to other tree nodes, making the data structure arbitrary graphs, or encoding pointers to other external data structures such as symbol tables.
+    - Handled using mapping from identifiers to values.
+
+#### ASDL Syntax
+- ASDL description is written by examining the original C++ sources.
+- ASDL description uses same set of identifiers that the original C++ code uses.
+
+#### ASDL Tools
+We have constructed the following tools:
+1. **Prototype Definitions Generator**
+    - ASDL is used to describe the internal data structure of a prototype tool that generates code from ASDL descriptions.
+    - The tool work with data structures that represent the **abstract syntax tree (AST)**.
+    - AST is pretty printed to produce the final output.
+    - A tool produces a set of C++ functions that automatically pickle and unpickle the C++ data structure.
+    - The clean separation between the abstract and concrete syntax helped isolate important issues of language design from issue of syntax.
+2. **Graphical Pickle Browser and Editor**
+    - The browser is a graphical tool for viewing and editing arbitrary pickled ASDL values.
+    - The browser reads two pickles to do this:
+        - An arbitrary pickled ASDL values.
+        - Pickled ASDL description that contains all the ASDL types that occur in the first pickle.
+    - The first pickle is displayed as a hierarchical list or a graphical tree.
+    - When the user edits an object, the brower modifies an abstract representation of generic ASDL values in memory. The memory representation is than converted into the pickle format.
+    - This makes brower independent of the actual pickling format or concrete syntax of ASDL.
+    - The browser can be used to create, edit, or view ASDL type descriptions by manipulating abstract syntax.
+    - The browser is implemented in C. The definitions generator and the parser for ASDL description are implemented in Standard ML.
+3. A tool to convert between the original C++ SUIF data structures and data structures produced from the ASDL description by the definitions generator.
 
 ### Future Work
 - It should support modularized descriptions.
