@@ -13,20 +13,20 @@
 - This paper describes details about ASDL!
 
 ### Introduction
-- The components of compiler comminicate with each other through an IR.
-- If compiler components can exchange compatible IRs they can ineroperate.
-- To do this, we have to implement and transmit IR accross different components.
+- The components of the compiler communicate with each other through an IR.
+- If compiler components can exchange compatible IRs they can interoperate.
+- To do this, we have to implement and transmit IR across different components.
 - To written files are called pickles and conversion to pickles is called pickling or marshaling.
-- IRs need to be written in more than one programming language other wise compiler components written in different languages cannot interperate.
-- IRs are usually tree-like data structure.
+- IRs need to be written in more than one programming language other wise compiler components written in different languages cannot interoperate.
+- IRs are usually tree-like data structures.
 - A parser implementation is a poor way to describe the syntax of a programming language.
 - This article describes ASDL, a simple declarative language for describing the abstract structures of IRs.
 - IRs described with ASDL are converted into an implementation automatically by tools.
 - Tools generate the data-structure definitions for a target language as well as the pickling functions and other supporting code.
-- ASDL descriptions are more consise than data-structure definitions in languages.
-- Summary on design goals of ASDL:
+- ASDL descriptions are more concise than data-structure definitions in languages.
+- Summary of design goals of ASDL:
     - The language must be simple and concise.
-    - The language must be able to encode existing IR's.
+    - The language must be able to encode existing IRs.
     - Tools that use the language must initially be able to produce code for C, C++, Java, and ML.
     - Tools must be able to produce code designed to be understood by programmers, not just other tools.
     - Language features must have a natural encoding in all the target languages.
@@ -37,7 +37,7 @@
     definitions  =  {typ_id "=" type}
         type     =  sum_type | product_type
     product type =  fields
-      sum type   =  constructor f"|" constructorg
+      sum type   =  constructor {"|" constructor}
                     ["attributes" fields]
     constructor  =  con_id [fields]
         fields   = "(" {field ","} field ")"
@@ -58,18 +58,18 @@
     ```
 - It contains formal semantic information that should be preserved by a tool when translating descriptions into implementations.
 - The names of types and constructors are restricted to the intersection of valid identifiers in the initial set of target languages.
-- To help user to understand between constructors and type names:
-    - `types` are required to begin with a lower case.
+- To help users to understand between constructors and type names:
+    - `types` are required to begin with a lowercase.
     - `constructor` names must begin with an upper case.
 
 #### ASDL Fundamentals
 - Consists of three fundamental constructs: ***types, constructors***, and ***productions***.
 - **type**: productions that enumerate the constructors for that type.
-    - Eg: *stm* type. It's value is created by one of three constructors (nodes) *Compound*, *Assign*, and *Print*.
-    - *Compound* constructor has two fields whose values are of type *stm*, aka, it has two children that are subtrees.
+    - Eg: *stm* type. Its value is created by one of three constructors (nodes) *Compound*, *Assign*, and *Print*.
+    - The *Compound* constructor has two fields whose values are of type *stm*, aka, it has two children that are subtrees.
     - *binop* type consists of only constructors which have no fields. These types are finite enumerations of values.
 - ASDL does not provide an explicit enumeration type.
-- There are three (int, indentifier, and string) primitive pre-defined types in ASDL.
+- There are three (int, identifier, and string) primitive pre-defined types in ASDL.
 - ASDL description of trivial programming language:
     ```asdl
       stm    =  Compound(stm, stm)
@@ -120,9 +120,9 @@
     ```
 
 #### Field Names
-- ASDL description allow the specification of a field name to access the values of constructor fields.
-- Tools can easily create field names based on position and type of a constructor field.
-- Providing names of the field improves redability of descriptions and code generated from those descriptions.
+- ASDL description allows the specification of a field name to access the values of constructor fields.
+- Tools can easily create field names based on the position and type of a constructor field.
+- Providing names of the fields improves the readability of descriptions and code generated from those descriptions.
 - ASDL description with field names:
     ```asdl
       stm    =  Compound(stm head, stm next)
@@ -134,7 +134,7 @@
 
 #### Sequences
 - *exp_list*: used for expressing a uniform sequence of some type.
-- Denoted via `*` sequence qualifier. Acepts zero or more elements of that type.
+- Denoted via `*` sequence qualifier. Accepts zero or more elements of that type.
 - Provides a mechanism in the description for a writer to more clearly specify intent giving tools that generate code more freedom to use appropriate representations in the native language.
     - Tool may transfer a sequence type into an array or another built-in sequence type.
 - ASDL description with sequences:
@@ -145,9 +145,9 @@
     ```
 
 #### Product Types, Attributes, and Options
-- Very complex expressions are not supported in ASDL because every language does not support such complex expression.
-- To achieve a new distinct types, tools would have to use target language type abbreviation mechanisms (e.g. typedef) to achieve this effect.
-- Generated code is intended to be readable by the programmar.
+- Very complex expressions are not supported in ASDL because every language does not support such complex expressions.
+- To achieve a new distinct type, tools would have to use target language type abbreviation mechanisms (e.g. typedef) to achieve this effect.
+- Generated code is intended to be readable by the programmer.
     - Example:
         ```asdl
         --- complex expression
@@ -157,16 +157,16 @@
         t = C(int, int_pair*)
         int_pair = IP(int, int)
         ```
-- This above restriction is unstatisfactoy, since it requires descriptions writers to provide names for the single constructor, IP.
-- To overcome it's problem ASDL provides (Cartesian) product types. These are productions that define a type that is an aggregate of several values of different types.
-    - Product type are also restricted in a way that does not lead to recursive definitions, since recursive definitions does not describe tree stuctures.
-- Another way to encode the expression in ASDL to avoid extra constructor:
+- This above restriction is unsatisfactory since it requires description writers to provide names for the single constructor, IP.
+- To overcome its problem ASDL provides (Cartesian) product types. These are productions that define a type that is an aggregate of several values of different types.
+    - Product types are also restricted in a way that does not lead to recursive definitions, since recursive definitions do not describe tree structures.
+- Another way to encode the expression in ASDL to avoid extra constructors:
     ```asdl
     t = C(int, int_pair*)
     int_pair = (int, int)
     ```
-- ASDL includes attribute notion. It's field can be accessed without having to discriminate between various constructors. It provides limited features of inheritance.
-- Convention for empty values in ASDL is `?` qualifier.
+- ASDL includes attribute notion. Its field can be accessed without having to discriminate between various constructors. It provides limited features of inheritance.
+- Convention for empty values in ASDL is a `?` qualifier.
 - ASDL description with products, attributes, and options.
     ```asdl
     pos   =  (string? file, int line, int offset)
@@ -182,7 +182,7 @@
     binop =  Plus | Minus | Times | Div
     ```
 - ASDL says nothing about how a definition should be translated by a tool into a specific concrete implementation.
-- Since, ASDL does not provide primitive type for real numbers the ASDL description describes a real type in terms of two arbitrary precision.
+- Since ASDL does not provide a primitive type for real numbers the ASDL description describes a real type in terms of two arbitrary precision.
 
 #### Pickles
 - Automatically generated pickler:
@@ -215,18 +215,18 @@
     ```
 - The ASDL data structure can be represented linearly.
 - A pre-order walk of the data structure is sufficient to convert a stm to its pickled form.
-- The walk is implemented as recursively defined functions for each type in ASDL definition.
+- The walk is implemented as recursively defined functions for each type in the ASDL definition.
     - Each function visits a node of that type and recursively walks the rest of the tree.
-- ASDL pickle format requries that both the reader and writer of the pickler agree on the type of the pickle.
+- ASDL pickle format requires that both the reader and writer of the pickler agree on the type of the pickle.
 - There is no explicit type information in the pickle.
 - The prefix encoding of trees, variable-length integer encoding, and lack of explicit type information, all help to keep the size of pickles small.
-    - Smaller pickles help to reduce the system IO, since there are less data to write or read.
+    - Smaller pickles help to reduce the system IO since there is less data to write or read.
     - They are more likely to fit completely in the cache of the IO system.
 
 ### Evaluation
 
 #### ASDL SUIF (Stanford University Intermediate Format)
-- SUIF uses an object oriented framework to implement its core IR.
+- SUIF uses an object-oriented framework to implement its core IR.
 - ASDL encoding in SUIF class hierarchy:
     ```asdl
     instruction = In_rrr(...)
@@ -241,33 +241,33 @@
   <img src="images/suif.png" alt="SUIF class hierarchy">
 </p>
 
-- Attributes in ASDL provides only one level of inheritance. To handle more types extra intermediate types need to be introduced.
+- Attributes in ASDL provide only one level of inheritance. To handle more types extra intermediate types need to be introduced.
 - The C++ code uses subtyping to express the constraint that a field must be a particular subtype of an abstract class.
-    - In ASDL this is equivalent to using ASDL constructor as a type in the description.
+    - In ASDL this is equivalent to using an ASDL constructor as a type in the description.
 - Issues: how to encode pointers to other tree nodes, making the data structure arbitrary graphs, or encoding pointers to other external data structures such as symbol tables.
-    - Handled using mapping from identifiers to values.
+    - Handled using a mapping from identifiers to values.
 
 #### ASDL Syntax
-- ASDL description is written by examining the original C++ sources.
-- ASDL description uses same set of identifiers that the original C++ code uses.
+- The ASDL description is written by examining the original C++ sources.
+- ASDL description uses the same set of identifiers that the original C++ code uses.
 
 #### ASDL Tools
 We have constructed the following tools:
 1. **Prototype Definitions Generator**
     - ASDL is used to describe the internal data structure of a prototype tool that generates code from ASDL descriptions.
-    - The tool work with data structures that represent the **abstract syntax tree (AST)**.
+    - The tool works with data structures that represent the **abstract syntax tree (AST)**.
     - AST is pretty printed to produce the final output.
     - A tool produces a set of C++ functions that automatically pickle and unpickle the C++ data structure.
-    - The clean separation between the abstract and concrete syntax helped isolate important issues of language design from issue of syntax.
+    - The clean separation between the abstract and concrete syntax helped isolate important issues of language design from issues of syntax.
 2. **Graphical Pickle Browser and Editor**
     - The browser is a graphical tool for viewing and editing arbitrary pickled ASDL values.
     - The browser reads two pickles to do this:
-        - An arbitrary pickled ASDL values.
+        - An arbitrary pickled ASDL value.
         - Pickled ASDL description that contains all the ASDL types that occur in the first pickle.
     - The first pickle is displayed as a hierarchical list or a graphical tree.
-    - When the user edits an object, the brower modifies an abstract representation of generic ASDL values in memory. The memory representation is than converted into the pickle format.
-    - This makes brower independent of the actual pickling format or concrete syntax of ASDL.
-    - The browser can be used to create, edit, or view ASDL type descriptions by manipulating abstract syntax.
+    - When the user edits an object, the browser modifies an abstract representation of generic ASDL values in memory. The memory representation is then converted into the pickle format.
+    - This makes the browser independent of the actual pickling format or concrete syntax of ASDL.
+    - The browser can be used to create, edit, or view ASDL-type descriptions by manipulating abstract syntax.
     - The browser is implemented in C. The definitions generator and the parser for ASDL description are implemented in Standard ML.
 3. A tool to convert between the original C++ SUIF data structures and data structures produced from the ASDL description by the definitions generator.
 
