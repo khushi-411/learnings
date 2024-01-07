@@ -237,9 +237,9 @@
     ```
 - SUIF class hierarchy
 
-<div align="center">
-![SUIF class hierarchy](images/suif.png)
-</div>
+<p align="center">
+  <img src="images/suif.png" alt="SUIF class hierarchy">
+</p>
 
 - Attributes in ASDL provides only one level of inheritance. To handle more types extra intermediate types need to be introduced.
 - The C++ code uses subtyping to express the constraint that a field must be a particular subtype of an abstract class.
