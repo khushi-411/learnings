@@ -17,7 +17,7 @@
 - If compiler components can exchange compatible IRs they can interoperate.
 - To do this, we have to implement and transmit IR across different components.
 - To written files are called pickles and conversion to pickles is called pickling or marshaling.
-- IRs need to be written in more than one programming language other wise compiler components written in different languages cannot interoperate.
+- IRs need to be written in more than one programming language otherwise compiler components written in different languages cannot interoperate.
 - IRs are usually tree-like data structures.
 - A parser implementation is a poor way to describe the syntax of a programming language.
 - This article describes ASDL, a simple declarative language for describing the abstract structures of IRs.
