@@ -39,10 +39,10 @@ Triton relies on tile-level operations and optimizations into traditional compil
 
 #### Syntax
 Based on ANSI C (i.e., CUDA-C), but was modified as follows:
-    - **Tile declarations**: Special syntax for multi-dimentional arrays (`int tile[16, 16]`). Tile shapes are constant but can also be made parametric with the `tunable` keyword.
-    - **Built-in functions**: Common elementwise array-operations (+, - &&, * , etc) and built-in functions like dot, trans, etc were added.
-    - **Broadcasting**: Can be done along any axis using `newaxis` keyword and using slicing syntax.
-    - **Prediction**: Basic control-flow withing tile operations.
+- **Tile declarations**: Special syntax for multi-dimentional arrays (`int tile[16, 16]`). Tile shapes are constant but can also be made parametric with the `tunable` keyword.
+- **Built-in functions**: Common elementwise array-operations (+, - &&, * , etc) and built-in functions like dot, trans, etc were added.
+- **Broadcasting**: Can be done along any axis using `newaxis` keyword and using slicing syntax.
+- **Prediction**: Basic control-flow withing tile operations.
 
 #### Semantics
 It has a NumPy-like semantics. Triton-C is strongly typed and they have to obey strict shape constraints.
@@ -63,3 +63,36 @@ It has a NumPy-like semantics. Triton-C is strongly typed and they have to obey 
 </p>
 
 ### Triton IR
+- LLVM-based IR which provide an environment suitable for tile-level program analysis, transformation and optimization.
+- Triton IR programs are constructed directly from Triton-C during parsing.
+- Triton-IR and LLVM-IR programs share the same high-level structure. But Triton-IR also includes number of extensions necessary for tile-level data-flow and control-flow analysis.
+
+#### Structure
+1. **Modules**
+    - Highest level
+    - These are one or more basic units of compilation.
+    - These are compiled independently and then aggregated by the linker.
+    - Consists of functions, global variables, constants, etc.
+2. **Functions**
+    - Consists of a return type, a name, and an empty arguments lists.
+    - Function attributes and parameter attributes can also be specified and optimizations can be performed.
+3. **Basic Blocks**
+    - Straight-line code sequences that may contain terminator instructions.
+    - Use Static Single Assignment (SSA) form i.e., each variable in each basic block is assigned only once and defined before being used.
+    - Defines Data-Flow Graph (DFG) whose different path corresponds to use-def chains in the programs SSA's representation.
+    - This form can directly created from ASTs.
+
+#### Support for Tile-Level Data-Flow Analysis
+1. **Types**
+    - Declared similary as in LLVM-IR.
+    - No `tunable` keyword in Triton-IR, hence parametric shape values must be resolved before programs are generated.
+2. **Instructions**
+    - Produced by Triton-IR, it's purpose is to support broadcasting semantics.
+    - ***reshape instruction***: creates a tile of the specified shape using data from its input argument.
+    - ***broadcast instruction***: creayes a tile of specified shapes by replicating its input argument as needed.
+    - ***arithmetic instruction***: for transpositions (*trans*) and matrix multiplication (*dot*).
+3. **Support for Tile-Level Control-Flow Analysis**
+    - Problem: it's very divergent control flow within the tiles.
+    - Proposed solutions: use of Predicted SSA. Requires addition of two instructions:
+        - ***cmp instructions***: similar to comparision instructions, but just return two opposite predicates instead of one.
+        - ***psi instructions***: merges instructions from different streams of predicted instructions.
