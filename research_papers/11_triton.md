@@ -40,7 +40,7 @@ Triton relies on tile-level operations and optimizations into traditional compil
 #### Syntax
 Based on ANSI C (i.e., CUDA-C), but was modified as follows:
 - **Tile declarations**: Special syntax for multi-dimentional arrays (`int tile[16, 16]`). Tile shapes are constant but can also be made parametric with the `tunable` keyword.
-- **Built-in functions**: Common elementwise array-operations (+, - &&, * , etc) and built-in functions like dot, trans, etc were added.
+- **Built-in functions**: Common elementwise array-operations (+, -, &&, * , etc) and built-in functions like dot, trans, etc were added.
 - **Broadcasting**: Can be done along any axis using `newaxis` keyword and using slicing syntax.
 - **Prediction**: Basic control-flow withing tile operations.
 
@@ -88,11 +88,68 @@ It has a NumPy-like semantics. Triton-C is strongly typed and they have to obey 
     - No `tunable` keyword in Triton-IR, hence parametric shape values must be resolved before programs are generated.
 2. **Instructions**
     - Produced by Triton-IR, it's purpose is to support broadcasting semantics.
-    - ***reshape instruction***: creates a tile of the specified shape using data from its input argument.
-    - ***broadcast instruction***: creayes a tile of specified shapes by replicating its input argument as needed.
-    - ***arithmetic instruction***: for transpositions (*trans*) and matrix multiplication (*dot*).
+        - ***reshape instruction***: creates a tile of the specified shape using data from its input argument.
+        - ***broadcast instruction***: creayes a tile of specified shapes by replicating its input argument as needed.
+        - ***arithmetic instruction***: for transpositions (*trans*) and matrix multiplication (*dot*).
 3. **Support for Tile-Level Control-Flow Analysis**
     - Problem: it's very divergent control flow within the tiles.
     - Proposed solutions: use of Predicted SSA. Requires addition of two instructions:
         - ***cmp instructions***: similar to comparision instructions, but just return two opposite predicates instead of one.
         - ***psi instructions***: merges instructions from different streams of predicted instructions.
+
+### The Triton-JIT compiler
+Goal: simplify and compile Triton-IR programs into efficient machine code via the following passes:
+
+#### Machine-Independent Passes
+1. **Pre-Fetching**: Triton-IR detects loops and adds adequate prefetching code to avoid latency problem.
+2. **Tile-Level Peephole Optimization**: Means simplifying the chain of transpositions using some identity.
+
+#### Machine-Dependent Passes
+Triton-IR consists of hierarchical tiling, memory coalescing, shared memory allocation and shared memory synchronization.
+1. **Hierarchical Tiling**
+    - Aim to decompose tiles into micro-tiles and nano-tiles to fit a machine's compute capabilities and memory hierarchy as tightly as possible.
+    - The structure is possible to automatically enumerate and optimize valid nested tiling configurations for any expressible program.
+<p align="center">
+  <img src="images/hierarchical_tiling.png" alt="Hierarchical Tiling in the Triton-IR Machine Model">
+</p>
+
+2. **Memory Coalescing**
+    - Memory is said to be coalesced when adjacent threads simultaneously access nearby memory locations.
+    - How to reduce the number of memory transactions? Triton-IR programs are single-threaded and automatically parallelized, the compiler backend is able to order threads internally within each micro-tile to avoid uncoalesced.
+<p align="center">
+  <img src="images/coalescing.png" alt="Uncoalesced (a) and coalesced (b)">
+</p>
+
+3. **Shared Memory Allocation**
+    - Benefit from temporarily storing the operands in fast shared memory.
+    - Goal: determine when and where a tile should be stashed to this space.
+<p align="center">
+  <img src="images/shared_memory_alloc.png" alt="Shared Memory Allocation">
+</p>
+
+4. **Shared Memory Synchronization**
+    - Read and write to shared memory are asynchronous in their machine model.
+    - Goal: automatically inserts barriers in the generated GPU source code.
+    - This is done by read-after-writes (RAW) and write-after-read (WAR) as follows:
+<p align="center">
+  <img src="images/shared_memory_sync.png" alt="Shared Memory Synchronization">
+</p>
+
+5. **Auto-tuner**
+    - Automatically extract optimization spaces from IR programs.
+    - In this work, only hierarchical tiling process is considered to no more than 3 tiling parameters per dimension per tile.
+    - These parameters are then optimized using power of two.
+        - tile size: 32 and 128
+        - micro-tile size: 8 and 32
+        - nano-tile size: 1 and 4
+
+### Numerical Experiments
+1. Matrix Multiplication
+2. Convolutions
+    - Dense Convolutions
+    - Shift Convolutions
+
+### Conclusions
+- Introduced language and compiler for expressing and compiling tile neural network computations into efficient machine code.
+- Showed that addition of various data-flow and control-flow extentions to LLVM-IR can enable various tile-level optimization passes which lead to performance.
+- Proposed Triton-C language which are able to implement efficient kernels.
