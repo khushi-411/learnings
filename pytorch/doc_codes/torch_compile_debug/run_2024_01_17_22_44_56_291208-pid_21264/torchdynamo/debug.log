@@ -1,0 +1,86 @@
+Step 1: torchdynamo start tracing foo1 /home/khushi/Documents/pt2_dev/learnings/pytorch/profile/../doc_codes/eg.py:5
+TRACE starts_line /home/khushi/Documents/pt2_dev/learnings/pytorch/profile/../doc_codes/eg.py:5 in foo1 (foo1)
+    def foo1(x1, x2):
+TRACE starts_line /home/khushi/Documents/pt2_dev/learnings/pytorch/profile/../doc_codes/eg.py:6 in foo1 (foo1)
+        a = torch.neg(x1)
+TRACE LOAD_GLOBAL torch []
+TRACE LOAD_ATTR neg [PythonModuleVariable(<module 'torch' from '/home/khushi/anaconda3/envs/dev/lib/python3.10/site-packages/torch/__init__.py'>)]
+TRACE LOAD_FAST x1 [TorchInGraphFunctionVariable(<built-in method neg of type object at 0x7fe2e3eece20>)]
+TRACE CALL_FUNCTION 1 [TorchInGraphFunctionVariable(<built-in method neg of type object at 0x7fe2e3eece20>), LazyVariableTracker()]
+create_graph_input L_x1_ L['x1']
+wrap_to_fake L['x1'] (1, 8) StatefulSymbolicContext(dynamic_sizes=[<DimDynamic.STATIC: 2>, <DimDynamic.STATIC: 2>], constraint_sizes=[None, None], tensor_source=LocalSource(local_name='x1', cell_or_freevar=False), shape_env_to_source_to_symbol_cache={})
+TRACE STORE_FAST a [TensorVariable()]
+TRACE starts_line /home/khushi/Documents/pt2_dev/learnings/pytorch/profile/../doc_codes/eg.py:7 in foo1 (foo1)
+        b = torch.maximum(x2, a)
+TRACE LOAD_GLOBAL torch []
+TRACE LOAD_ATTR maximum [PythonModuleVariable(<module 'torch' from '/home/khushi/anaconda3/envs/dev/lib/python3.10/site-packages/torch/__init__.py'>)]
+TRACE LOAD_FAST x2 [TorchInGraphFunctionVariable(<built-in method maximum of type object at 0x7fe2e3eece20>)]
+TRACE LOAD_FAST a [TorchInGraphFunctionVariable(<built-in method maximum of type object at 0x7fe2e3eece20>), LazyVariableTracker()]
+TRACE CALL_FUNCTION 2 [TorchInGraphFunctionVariable(<built-in method maximum of type object at 0x7fe2e3eece20>), LazyVariableTracker(), TensorVariable()]
+create_graph_input L_x2_ L['x2']
+wrap_to_fake L['x2'] (8390, 8) StatefulSymbolicContext(dynamic_sizes=[<DimDynamic.STATIC: 2>, <DimDynamic.STATIC: 2>], constraint_sizes=[None, None], tensor_source=LocalSource(local_name='x2', cell_or_freevar=False), shape_env_to_source_to_symbol_cache={})
+TRACE STORE_FAST b [TensorVariable()]
+TRACE starts_line /home/khushi/Documents/pt2_dev/learnings/pytorch/profile/../doc_codes/eg.py:8 in foo1 (foo1)
+        y = torch.cat([b], dim=0)
+TRACE LOAD_GLOBAL torch []
+TRACE LOAD_ATTR cat [PythonModuleVariable(<module 'torch' from '/home/khushi/anaconda3/envs/dev/lib/python3.10/site-packages/torch/__init__.py'>)]
+TRACE LOAD_FAST b [TorchInGraphFunctionVariable(<built-in method cat of type object at 0x7fe2e3eece20>)]
+TRACE BUILD_LIST 1 [TorchInGraphFunctionVariable(<built-in method cat of type object at 0x7fe2e3eece20>), TensorVariable()]
+TRACE LOAD_CONST 0 [TorchInGraphFunctionVariable(<built-in method cat of type object at 0x7fe2e3eece20>), ListVariable()]
+TRACE LOAD_CONST ('dim',) [TorchInGraphFunctionVariable(<built-in method cat of type object at 0x7fe2e3eece20>), ListVariable(), ConstantVariable(int)]
+TRACE CALL_FUNCTION_KW 2 [TorchInGraphFunctionVariable(<built-in method cat of type object at 0x7fe2e3eece20>), ListVariable(), ConstantVariable(int), TupleVariable()]
+TRACE STORE_FAST y [TensorVariable()]
+TRACE starts_line /home/khushi/Documents/pt2_dev/learnings/pytorch/profile/../doc_codes/eg.py:9 in foo1 (foo1)
+        return y
+TRACE LOAD_FAST y []
+TRACE RETURN_VALUE None [TensorVariable()]
+Step 1: torchdynamo done tracing foo1 (RETURN_VALUE)
+RETURN_VALUE triggered compile
+COMPILING GRAPH due to GraphCompileReason(reason='return_value', user_stack=[<FrameSummary file /home/khushi/Documents/pt2_dev/learnings/pytorch/profile/../doc_codes/eg.py, line 9 in foo1>], graph_break=False)
+TRACED GRAPH
+ ===== __compiled_fn_0 =====
+ <eval_with_key>.0 class GraphModule(torch.nn.Module):
+    def forward(self, L_x1_ : torch.Tensor, L_x2_ : torch.Tensor):
+        l_x1_ = L_x1_
+        l_x2_ = L_x2_
+        
+        # File: /home/khushi/Documents/pt2_dev/learnings/pytorch/profile/../doc_codes/eg.py:6 in foo1, code: a = torch.neg(x1)
+        a = torch.neg(l_x1_);  l_x1_ = None
+        
+        # File: /home/khushi/Documents/pt2_dev/learnings/pytorch/profile/../doc_codes/eg.py:7 in foo1, code: b = torch.maximum(x2, a)
+        b = torch.maximum(l_x2_, a);  l_x2_ = a = None
+        
+        # File: /home/khushi/Documents/pt2_dev/learnings/pytorch/profile/../doc_codes/eg.py:8 in foo1, code: y = torch.cat([b], dim=0)
+        y = torch.cat([b], dim = 0);  b = None
+        return (y,)
+        
+
+Tabulate module missing, please install tabulate to log the graph in tabular format, logging code instead:
+TRACED GRAPH
+ ===== __compiled_fn_0 =====
+ <eval_with_key>.0 class GraphModule(torch.nn.Module):
+    def forward(self, L_x1_ : torch.Tensor, L_x2_ : torch.Tensor):
+        l_x1_ = L_x1_
+        l_x2_ = L_x2_
+        
+        # File: /home/khushi/Documents/pt2_dev/learnings/pytorch/profile/../doc_codes/eg.py:6 in foo1, code: a = torch.neg(x1)
+        a = torch.neg(l_x1_);  l_x1_ = None
+        
+        # File: /home/khushi/Documents/pt2_dev/learnings/pytorch/profile/../doc_codes/eg.py:7 in foo1, code: b = torch.maximum(x2, a)
+        b = torch.maximum(l_x2_, a);  l_x2_ = a = None
+        
+        # File: /home/khushi/Documents/pt2_dev/learnings/pytorch/profile/../doc_codes/eg.py:8 in foo1, code: y = torch.cat([b], dim=0)
+        y = torch.cat([b], dim = 0);  b = None
+        return (y,)
+        
+
+TRACED GRAPH TENSOR SIZES
+===== __compiled_fn_0 =====
+l_x1_: (1, 8)
+l_x2_: (8390, 8)
+a: (1, 8)
+b: (8390, 8)
+y: (8390, 8)
+
+Step 2: calling compiler function inductor
+Step 2: done compiler function inductor
