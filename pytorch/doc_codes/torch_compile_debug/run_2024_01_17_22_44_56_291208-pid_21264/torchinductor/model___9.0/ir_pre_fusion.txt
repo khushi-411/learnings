@@ -1,0 +1,26 @@
+buf0: SchedulerNode(ComputedBuffer)
+buf0.writes = [MemoryDep('buf0', c0, {c0: 67120})]
+buf0.unmet_dependencies = []
+buf0.met_dependencies = 
+    [   MemoryDep('arg0_1', c1, {c0: 8390, c1: 8}),
+        MemoryDep('arg1_1', c0, {c0: 67120})]
+buf0.users = [NodeUser(node=OUTPUT, can_inplace=False, is_weak=False)]
+buf0.group.device = cpu
+buf0.group.iteration = ((8390, 8), ())
+buf0.sizes = ([8390, 8], [])
+class buf0_loop_body:
+    var_ranges = {z0: 8390, z1: 8}
+    index0 = 8*z0 + z1
+    index1 = z1
+    def body(self, ops):
+        get_index = self.get_index('index0')
+        load = ops.load('arg1_1', get_index)
+        get_index_1 = self.get_index('index1')
+        load_1 = ops.load('arg0_1', get_index_1)
+        neg = ops.neg(load_1)
+        maximum = ops.maximum(load, neg)
+        get_index_2 = self.get_index('index0')
+        store = ops.store('buf0', get_index_2, maximum, None)
+        return store
+
+
