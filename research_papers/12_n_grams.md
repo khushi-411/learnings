@@ -182,7 +182,7 @@ $$
 \lambda(w_{i-1}) = \frac{d}{\frac{\sum_{v} C(w_{i-1}v)}{|\{w : C(w_{i-1}w) > 0\}|}}
 $$
 
-- Here, C_{KN}, depends on whether we are counting the highest-order n-gram being interpolated or one of the lower-order n-grams.
+- Here, $C_{KN}$, depends on whether we are counting the highest-order n-gram being interpolated or one of the lower-order n-grams.
 - **Modifie Kneser-Ney smoothing**: rather than using a single fixed discount *d*, this algorithm uses three different discount $d_1$, $d_2$, and $d_3$.
 
 ### Advanced: Perplexity’s Relation to Entropy
