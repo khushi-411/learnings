@@ -98,13 +98,13 @@ $$
 P(w_i) = \frac{c_i}{N}
 $$
 
-After applying laplace smoothing:
+    After applying laplace smoothing:
 
 $$
 P_{\text{Laplace}}(w_i) = \frac{c_i + 1}{N + V}
 $$
 
-- How smoothing algorithm affects the numerator. by defining an adjusted count `c^*`
+- How smoothing algorithm affects the numerator? by defining an adjusted count $c^\ast$
 
 $$
 c^*_i = \frac{c_i + 1}{N + V}
@@ -122,7 +122,77 @@ $$
    - One way is optimizing devset.
 
 $$
-P^*_{\text{Add-k}}(w_n|w_{n-1}) = \frac{C(w_{n-1}w_n) + k}{C(w_{n-1}) + kV}
+P^\ast_{\text{Add-k}}(w_n|w_{n-1}) = \frac{C(w_{n-1}w_n) + k}{C(w_{n-1}) + kV}
 $$
 
-#### Backoff and Interpolation  
+#### Backoff and Interpolation
+- Two ways to use n-gram hierarchy:
+    - **backoff**: we only "back off" to a lower-order n-gram if we have zero evidence for a higher-order n-gram, i.e., first we use trigram, if it doesn't work we try bigram, then unigram.
+    - **interpolation**: Mixing the probability estimates from all the n-gram eslimators, weighting and combining the trigram, bigram, and unigram counts. Linear interpolation is given by, here, for example for trigram (here, sum of $\lambda_1, \lambda_2, \lambda_3$ is 1.
+
+$$
+\hat{P}(w_n|w_{n-2}w_{n-1}) = \lambda_1 P(w_n) + \lambda_2 P(w_n|w_{n-1}) + \lambda_3 P(w_n|w_{n-2}w_{n-1})
+$$
+
+- How are these $\lambda$ values set?
+    - Learned from a held-out corpus.
+    - Held-out corpus is an additional training corpus so that we use to set hyperparameters.
+    - We choose the value of $\lambda$ that maximize the likelihood of the held-out corpus.
+    - Ways to set $\lambda$:
+        - fix the n-gram probability and then search for $\lambda$ values.
+        - Use EM algorithm, an iterative ML algorithm that converges to locally optimal $\lambda$.
+- To give backoff model correct probability distritbution, we have to **discount** the higher-order n-grams to save some probability mass for the lower order n-grams.
+- **Katz backoff**: We realy on discounted probability if we’ve seen this n-gram before (i.e., if we have non-zero counts). Otherwise, we recursively back off to the Katz probability for the shorter-history (n-1)-gram.
+    - It is often combined with the smoothing method called **Good-Turning**.
+
+### Huge Language Models and Stupid Backoff
+- How to shrunk n-gram model?
+    - Pruning: for example, only storing n-grams with counts greater than some threshold, or using entropy to purne less important n-grams.
+    - Using bloom fliters
+- **Stupid backoff**: Trying to make a language model a true probability distribution. There's no discounting of the higher-order probabilities.
+
+
+### Advanced: Kneser-Ney Smoothing
+- Advance smoothing method.
+- **Absolute discounting**: For example we have a n-gram model with n=4, we'll look at a held out corpus and see what the count is for all those bigrams that had count 4 in the training set. We than substract a an absolute value from the count in the training set.
+    - Absolute discounting formalizes this intuition by subtracting a fixed (absolute) discount d from each count. Here, $0 \leq d \leq 1$
+
+$$
+P_{\text{AbsoluteDiscounting}}(w_i|w_{i-1}) = \frac{C(w_{i-1}w_i) - d}{\sum_{v} C(w_{i-1} v) + \lambda(w_{i-1})} P(w_i)
+$$
+
+#### Kneser-Ney Discounting
+- Presents more sophisticated way to handle lower-order unigram distribution.
+- It predicts how likely the word will appear as a novel continuation.
+- It is given by:
+
+$$
+P_{\text{CONTINUATION}}(w) = \frac{| \{ v : C(vw) > 0 \} |}{| \{ (u_0, w_0) : C(u_0w_0) > 0 \} |}
+$$
+
+- **Interpolated Kneser-Ney smoothing** for bigrams:
+
+$$
+P_{\text{KN}}(w_i|w_{i-1}) = \max \left( \frac{C(w_{i-1}w_i) - d}{C(w_{i-1}) + \lambda(w_{i-1})} P_{\text{CONTINUATION}}(w_i), 0 \right)
+$$
+
+    Here, $\lambda$ is the normalizing constant given by:
+
+$$
+\lambda(w_{i-1}) = \frac{d}{\frac{\sum_{v} C(w_{i-1}v)}{|\{w : C(w_{i-1}w) > 0\}|}}
+$$
+
+- Here, C_{KN}, depends on whether we are counting the highest-order n-gram being interpolated or one of the lower-order n-grams.
+- **Modifie Kneser-Ney smoothing**: rather than using a single fixed discount *d*, this algorithm uses three different discount d_1, d_2, and d_3.
+
+### Advanced: Perplexity’s Relation to Entropy
+(TBD)
+
+### Summary
+- We studied how language model are used to predict next words from preceding words.
+- Studied Markov model.
+- We can evaluate the model both extrinsically and intrinsically.
+- Preplexity of a test set according to a language model is the geometric mean of the inverse test set probability computed by the model.
+- We studied about the smoothing algorithm. And commanly used smoothing algorithm (backoff and interpolation).
+- They require discounting to create a probability distribution.
+- We discussed about the Kneser-Ney smoothing algorithm.
