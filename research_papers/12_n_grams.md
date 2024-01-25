@@ -98,7 +98,7 @@ $$
 P(w_i) = \frac{c_i}{N}
 $$
 
-    After applying laplace smoothing:
+After applying laplace smoothing:
 
 $$
 P_{\text{Laplace}}(w_i) = \frac{c_i + 1}{N + V}
@@ -176,14 +176,14 @@ $$
 P_{\text{KN}}(w_i|w_{i-1}) = \max \left( \frac{C(w_{i-1}w_i) - d}{C(w_{i-1}) + \lambda(w_{i-1})} P_{\text{CONTINUATION}}(w_i), 0 \right)
 $$
 
-    Here, $\lambda$ is the normalizing constant given by:
+Here, $\lambda$ is the normalizing constant given by:
 
 $$
 \lambda(w_{i-1}) = \frac{d}{\frac{\sum_{v} C(w_{i-1}v)}{|\{w : C(w_{i-1}w) > 0\}|}}
 $$
 
 - Here, C_{KN}, depends on whether we are counting the highest-order n-gram being interpolated or one of the lower-order n-grams.
-- **Modifie Kneser-Ney smoothing**: rather than using a single fixed discount *d*, this algorithm uses three different discount d_1, d_2, and d_3.
+- **Modifie Kneser-Ney smoothing**: rather than using a single fixed discount *d*, this algorithm uses three different discount $d_1$, $d_2$, and $d_3$.
 
 ### Advanced: Perplexity’s Relation to Entropy
 (TBD)
