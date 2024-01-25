@@ -36,7 +36,7 @@ words.
 - **Log Probabilities**: Probabilities in log format. To save from numerical underflow.
 
 ### Evaluating Language Models
-- **Extrinsic Evaluation** (best way): embed it in an application and measure how much the application improves.
+- **Extrinsic Evaluation** (best way): embed it in an application and measure how much it improves.
 - **Intrinsic Evaluation**: measures the quality of a model-independent of any application.
 - The training test is used to learn new things in the model, and the testing set is used to check the quality of some unseen data.
 - **Training on test data**: When unseen data comes in test data, the model will start training on that unseen test data.
@@ -59,7 +59,7 @@ $$
 
 ### Sampling sentences from a language model
 - **Sampling** from a distribution means to choose random points according to their likelihood.
-- To generate a sentence, choose a sentence according to its likelihood as defined by the model. Therefore, we are more likely to generate some sentences that have a high probability and those that have a low probability.
+- To generate a sentence, choose a sentence according to its likelihood as defined by the model. Therefore, we are more likely to generate some sentences with a high probability and those with a low probability.
 
 ### Generalization and Zeros
 - Dependent on the training corpus.
@@ -68,18 +68,18 @@ $$
     - n-grams do a better job modeling the training corpus as we increase the value of N.
 - General observation: the longer the context on which we train the model, the more coherent the sentences.
 - What if the training set and test sets are of different genres?
-    - The model won't have a good result.
-    - Therefore, make sure both the training and test sets are from the same genre.
+    - The model will have a poor result.
+    - Therefore, ensure the training and test sets are from the same genre.
     - The other problem is: ***sparsity***. There will be many cases of zero probability n-grams.
 - The ***zeros*** that don't occur in the training set but do occur in the test set are a problem for two reasons:
-    - there presence means we are undereslimating the probability of all sorts of words that might occur, this will have performance effects.
+    - their presence means we are underestimating the probability of all sorts of words that might occur; this will have performance effects.
     - If the probability of any word in the test test is 0, the entire probability of the test set is 0.
-    - We can't calculate perplexity, because we can't divide by 0.
-- **How to deal will zeros?**
+    - We can't calculate perplexity because we can't divide by 0.
+- **How to deal with zeros?**
     - Smoothing or discounting.
     - Unknown words.
 - **Unknown words**: words that you have never seen before.
-    - ***closed vocabulary***: disallow the situation from occurring, and tell the system that we know all the words that can occur.
+    - ***closed vocabulary***: disallow the situation from occurring and tell the system that we know all the words that can occur.
     - ***out of vocabulary***: If any such words occur, we can call unknown words and create an open vocabulary system, and add these words in a test set by adding a pseudo-word called `<UNK>`. Ways to train it:
         - Choose a vocabulary (word list) that is fixed in advance.
 	- Convert in the training set any word that is not in this set to the unknown word token `<UNK>` in a test normalization step.
@@ -90,7 +90,7 @@ $$
 - To save models from having zero probability, we shave off a bit of probability mass from some frequent events and give it to the events we've never seen. The following are the ways of smoothing:
 
 #### Laplace smoothing
-- It's the simplest way: adding one to all the n-gram counts before we normalize them into probabilities.
+- It's the simplest way: adding one to all the n-gram counts before normalizing them into probabilities.
 - This algorithm does not perform well enough to be used in modern n-gram models.
 - The unigram probability of a word w_i, its count c_i normalized by the total number of word tokens *N*:
 
@@ -98,13 +98,13 @@ $$
 P(w_i) = \frac{c_i}{N}
 $$
 
-After applying laplace smoothing:
+After applying Laplace smoothing:
 
 $$
 P_{\text{Laplace}}(w_i) = \frac{c_i + 1}{N + V}
 $$
 
-- How smoothing algorithm affect the numerator? by defining an adjusted count $c^\ast$
+- How does the smoothing algorithm affect the numerator? by defining an adjusted count $c^\ast$
 
 $$
 c^*_i = \frac{c_i + 1}{N + V}
@@ -118,7 +118,7 @@ $$
 
 #### Add-k smoothing
 - This algorithm adds a fractional count *k*.
-- How to choose *k*?
+- How do you choose *k*?
    - One way is optimizing the dev set.
 
 $$
@@ -136,7 +136,7 @@ $$
 
 - How are these $\lambda$ values set?
     - Learned from a held-out corpus.
-    - Held-out corpus is an additional training corpus that we use to set hyperparameters.
+    - The held-out corpus is an additional training corpus that we use to set hyperparameters.
     - We choose the value of $\lambda$ that maximizes the likelihood of the held-out corpus.
     - Ways to set $\lambda$:
         - fix the n-gram probability and then search for $\lambda$ values.
