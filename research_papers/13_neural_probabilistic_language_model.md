@@ -84,9 +84,9 @@ $$
 - **Mixture of models**: Improved performance by combining the probability predictions of the neural network with the interpolated trigram model.
 
 ### Parallel Implementation
-The amount of computation required for obtaining the output probabilities is much greater than required for the n-gram model.
-    - The main computational bottleneck with neural implementation is the computation of the activations of the output layer.
-    - In the n-gram model, it has an easy normalization step and mostly has linear combinations. Hence, it is less expensive computationally.
+- The amount of computation required for obtaining the output probabilities is much greater than required for the n-gram model.
+- The main computational bottleneck with neural implementation is the computation of the activations of the output layer.
+- In the n-gram model, it has an easy normalization step and mostly has linear combinations. Hence, it is less expensive computationally.
 - Running the model on parallel platforms is one of the solutions to it. They are:
     - **Data-Parallel Processing**: aka, shared-memory processor. Each processor works on a different subset of the data. Asynchronous implementation is much faster than synchronized implementation (as most of the cycles have to wait a long time for another process) because the processor can write anytime in the shared memory.
     - **Parameter-Parallel Processing**: parallelize access to the parameters; this allows the performance of a parallelized stochastic gradient ascent. If the number of units is very large, parallelizing their computation becomes profitable.
