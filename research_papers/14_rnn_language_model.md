@@ -41,7 +41,7 @@ f(z) = \frac{1}{1 + e^{-z}}
 $$
 
 $$
-g(z_m) = e^{z_m} \frac{\sum_k e^{z_k}}{e^{z_k}}
+g(z_m) = \frac{e^{z_m}}{\sum_k e^{z_k}}
 $$
 
 - According to experiments, the hidden layer's size reflects the training data amount.
