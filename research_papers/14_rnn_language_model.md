@@ -60,7 +60,7 @@ $$
 
 $$
 P(w_i(t+1)|w(t), s(t-1)) = \begin{cases}
-y_{\text{rare}}(t) \cdot C_{\text{rare}} & \text{if } w_i(t + 1) \text{ is rare}, \\
+\frac{y_{\text{rare}}(t)}{C_{\text{rare}}} & \text{if } w_i(t + 1) \text{ is rare}, \\
 y_i(t) & \text{otherwise}.
 \end{cases}
 $$
