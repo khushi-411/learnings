@@ -1,27 +1,27 @@
-# Recurrent Neural Network based Language Model
+# Recurrent Neural Network-based Language Model
 
 > By ***Toma's Mikolov, Martin Karafiat, Luka's Burget, Jan "Honza" Cernock, Sanjeev Khudanpur***
 
 [Research Paper Link](https://www.fit.vutbr.cz/research/groups/speech/publi/2010/mikolov_interspeech2010_IS100722.pdf)
 
 ### Abstract
-- Paper presents an RNN based language model with speech recognition application.
+- Paper presents an RNN-based language model with speech recognition application.
 - Results show we can obtain around $50%$ reduction of perplexity.
-- Speech recognition experiments show around $18%$ reduction of word error rate on the Wall Street Journel tasks and around $5%$ on NIST RT05 tasks.
+- Speech recognition experiments show around $18%$ reduction in word error rate on the Wall Street Journal tasks and around $5%$ on NIST RT05 tasks.
 
 ### Introduction
 - Problem: Sequential data prediction
 - Goal: To predict the next word in textual data.
-- How to better predict the sequential data? Achieved by the introduction of cache models and class-based models.
-- Experiments showed more data results in more accurate results (although recent papers are contradictoary).
+- How to better predict the sequential data? This was achieved by the introduction of cache models and class-based models.
+- Experiments showed more data results in more accurate results (although recent papers are contradictory).
 - Paper experiments RNN for modeling sequential data.
 
 ### Model Description
 - Previous approaches:
-    - Bengio approach: using feed-forward neural network with fixed length context. Main deficiency is that neural network can only see few words before and after.
-    - Goodman approach: mixture of several models.
+    - Bengio approach: using a feed-forward neural network with fixed length context. The main deficiency is that the neural network can only see a few words before and after.
+    - Goodman approach: a mixture of several models.
     - Schwenk approach: improvements in speech recognition model.
-- RNN's are not limited to size of context.
+- RNNs are not limited to the size of context.
 - Input layer ($x$), hidden layer ($s$), output layer ($y$), time ($t$), output ($y(t)$), and state of network ($s(t)$). They are computed as follows:
 
 $$
@@ -44,14 +44,14 @@ $$
 g(z_m) = e^{z_m} \frac{\sum_k e^{z_k}}{e^{z_k}}
 $$
 
-- According to experiments size of hidden layer reflect the amount of training data.
+- According to experiments, the hidden layer's size reflects the training data amount.
 - All data is sequentially processed.
-- Output layer represents probability distribution of next word given previous word and context size.
+- The output layer represents the probability distribution of the next word given the previous word and context size.
 - Softmax ensures the probability distribution is valid.
 - **Dynamic model**
-    - Conventionally, we believe that the training and testing phase are two different phases and model does not learn any newfeatures during testing phase. But on the contray, if the model gets any new words during testing phase it starts training on that testing phase.
+    - Conventionally, we believe that the training and testing phases are two different phases, and the model needs to learn new features during the testing phase. But on the contrary, if the model gets any new words during the testing phase, it starts training on that testing phase.
     - Gets automatically updated to new domains.
-- For RNN's only size of hidden layer needs to be selected unlike feed-forward neural network.
+- For RNN, only the size of the hidden layer needs to be selected, unlike feed-forward neural networks.
 
 #### Optimization
 - Merging all the words that occur less often than a threshold into a special rare token.
@@ -68,6 +68,6 @@ $$
 - $C_{rare}$: number of words in the vocabulary that occur less often than the threshold.
 
 ### Conclusion and Future Work
-- RNNs outperformed than previous models.
-- Proved that their are multiple ways (not just n-gram) we can improve the perforance of the model.
+- RNNs outperformed previous models.
+- Proved that there are multiple ways (not just n-gram) we can improve the performance of the model.
 - RNNs can capture long context information as cache models.
