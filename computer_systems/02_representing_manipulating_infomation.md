@@ -63,9 +63,13 @@
 - We'll get a binary representation.
 - To convert this binary representation, we can split into groups of $4$ bits each and follow the table.
 
+<div align="center">
+
 | Hexadecimal |  1   |  7   |  3   |  A   |  4   |  C   |
 | ------------|------|------|------|------|------|------|
 | Binary      | 0001 | 0111 | 0011 | 1010 | 0100 | 1100 |
+
+</div>
 
 - When $x$ is a power of $2$, $x = 2^n$, $n$ can be written in the form of $i + 4j$.
 - Example: $x = 2048 = 2^{11}$, will have $n = 11 = 3 + 4 \times 2$, and its hexadecimal representation is given by $0x800$.
@@ -137,3 +141,4 @@ $$
 - The C standard has lower bound for each data type but there is no upper bound.
 
 #### Addressing and Byte Ordering
+- 
